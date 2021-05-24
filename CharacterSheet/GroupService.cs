@@ -56,7 +56,8 @@ namespace CharacterSheets
             {
                 id = 1;
             }
-            Groups.Add(new Group(){Id = id, Name = name, Type = TypeSelected});
+
+            Groups.Add(new Group(id, name, TypeSelected));
 
             return id;
         }
@@ -95,7 +96,6 @@ namespace CharacterSheets
                 {
                     Console.WriteLine(new string('-', 50));
                     Int32.TryParse(Console.ReadLine(), out selectedId);
-                    Console.WriteLine();
                     if (validGroups.Any(grp => grp.Id == selectedId))
                     {
                         result = validGroups.Single(grp => grp.Id == selectedId);

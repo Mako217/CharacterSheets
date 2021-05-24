@@ -72,7 +72,7 @@ namespace CharacterSheets
                                     break;
                                 case '3':
                                     CharacterSheet characterSheetSelected = characterSheetService.SelectCharacterSheetView(groupSelected);
-                                    characterSheetService.ShowCharacterSheetDetails(characterSheetSelected, groupSelected);
+                                    characterSheetSelected.ShowCharacterSheetDetails();
                                     break;
                             }
                         }

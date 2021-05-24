@@ -12,6 +12,13 @@ namespace CharacterSheets
         public string Name { get; set; }
         public GroupType Type { get; set; }
 
+        public Group(int id, string name, GroupType type)
+        {
+            Id = id;
+            Name = name;
+            Type = type;
+        }
+
     }
 
     public enum GroupType

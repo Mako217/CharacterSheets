@@ -358,7 +358,6 @@ namespace CharacterSheets
                 {
                     Console.WriteLine(new string('-', 50));
                     Int32.TryParse(Console.ReadLine(), out selectedId);
-                    Console.WriteLine();
                     if (validCharacterSheets.Any(sheet => sheet.Id == selectedId))
                     {
                         result = validCharacterSheets.Single(sheet => sheet.Id == selectedId);
@@ -386,79 +385,6 @@ namespace CharacterSheets
             CharacterSheets.Remove(characterSheetToRemove);
         }
 
-
-        public void ShowCharacterSheetDetails(CharacterSheet characterSheet, Group group)
-        {
-            Console.WriteLine(new string('-', 50));
-            Console.WriteLine($"Name: {characterSheet.Name}");
-            Console.WriteLine($"Age: {characterSheet.Age}");
-            Console.WriteLine($"Sex: {characterSheet.Sex}");
-            switch (group.Type)
-            {
-                case GroupType.Warhammer:
-                    ShowWarhammerCharacterSheetDetails((WarhammerCharacterSheet)characterSheet);
-                    break;
-                case GroupType.SavageWorlds:
-                    ShowSavageWorldsCharacterSheetDetails((SavageWorldsCharacterSheet)characterSheet);
-                    break;
-                case GroupType.CallOfCthulhu:
-                    ShowCallOfCthulhuCharacterSheetDetails((CallOfCthulhuCharacterSheet)characterSheet);
-                    break;
-            }
-        }
-
-        public void ShowWarhammerCharacterSheetDetails(WarhammerCharacterSheet characterSheet)
-        {
-            Console.WriteLine($"Career Path: {characterSheet.CareerPath}");
-            Console.WriteLine($"Race: {characterSheet.Race}");
-            Console.WriteLine($"Weapon Skill: {characterSheet.WeaponSkill}");
-            Console.WriteLine($"Ballistic Skill: {characterSheet.BallisticSkill}");
-            Console.WriteLine($"Strength: {characterSheet.Strength}");
-            Console.WriteLine($"Toughness: {characterSheet.Toughness}");
-            Console.WriteLine($"Agility: {characterSheet.Agility}");
-            Console.WriteLine($"Intelligence: {characterSheet.Intelligence}");
-            Console.WriteLine($"Will Power: {characterSheet.WillPower}");
-            Console.WriteLine($"Fellowship: {characterSheet.Fellowship}");
-            Console.WriteLine($"Attacks: {characterSheet.Attacks}");
-            Console.WriteLine($"Wounds: {characterSheet.Wounds}");
-            Console.WriteLine($"Strength Bonus: {characterSheet.StrengthBonus}");
-            Console.WriteLine($"Toughness Bonus: {characterSheet.ToughnessBonus}");
-            Console.WriteLine($"Movement: {characterSheet.Movement}");
-            Console.WriteLine($"Magic: {characterSheet.Magic}");
-            Console.WriteLine($"Insanity Points: {characterSheet.InsanityPoints}");
-            Console.WriteLine($"Fate Points: {characterSheet.FatePoints}");
-        }
-
-        public void ShowSavageWorldsCharacterSheetDetails(SavageWorldsCharacterSheet characterSheet)
-        {
-            Console.WriteLine($"Race: {characterSheet.Race}");
-            Console.WriteLine($"Agility: {characterSheet.Agility}");
-            Console.WriteLine($"Fighting: {characterSheet.Fighting}");
-            Console.WriteLine($"Smarts: {characterSheet.Smarts}");
-            Console.WriteLine($"Spirit: {characterSheet.Spirit}");
-            Console.WriteLine($"Strength: {characterSheet.Strength}");
-            Console.WriteLine($"Vigor: {characterSheet.Vigor}");
-            Console.WriteLine($"Pace: {characterSheet.Pace}");
-            Console.WriteLine($"Parry: {characterSheet.Parry}");
-            Console.WriteLine($"Toughness: {characterSheet.Toughness}");
-        }
-
-        public void ShowCallOfCthulhuCharacterSheetDetails(CallOfCthulhuCharacterSheet characterSheet)
-        {
-            Console.WriteLine($"Occupation: {characterSheet.Occupation}");
-            Console.WriteLine($"Strength: {characterSheet.Strength}");
-            Console.WriteLine($"Dexterity: {characterSheet.Dexterity}");
-            Console.WriteLine($"Power: {characterSheet.Power}");
-            Console.WriteLine($"Constitution: {characterSheet.Constitution}");
-            Console.WriteLine($"Appearance: {characterSheet.Appearance}");
-            Console.WriteLine($"Education: {characterSheet.Education}");
-            Console.WriteLine($"Size: {characterSheet.Size}");
-            Console.WriteLine($"Intelligence: {characterSheet.Intelligence}");
-            Console.WriteLine($"Hit Points: {characterSheet.HitPoints}");
-            Console.WriteLine($"Luck: {characterSheet.Luck}");
-            Console.WriteLine($"Sanity: {characterSheet.Sanity}");
-            Console.WriteLine($"Magic Points: {characterSheet.MagicPoints}");
-        }
     }
 
 }
