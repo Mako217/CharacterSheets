@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CharacterSheets.App.Common;
+using CharacterSheets.Domain;
 
-namespace CharacterSheets
+namespace CharacterSheets.App
 {
-    public class CharacterSheetService
+    public class CharacterSheetService : BaseService<CharacterSheet>
     {
-        public List<CharacterSheet> CharacterSheets = new List<CharacterSheet>();
 
         public ConsoleKeyInfo CharacterSheetView(MenuActionService actionService)
         {
@@ -50,9 +51,9 @@ namespace CharacterSheets
             Console.WriteLine("Enter age:");
             Int32.TryParse(Console.ReadLine(), out int age);
             int id;
-            if (CharacterSheets.Any())
+            if (Items.Any())
             {
-                id = CharacterSheets.Last().Id + 1;
+                id = Items.Last().Id + 1;
             }
             else
             {
@@ -131,7 +132,7 @@ namespace CharacterSheets
             Console.WriteLine("Enter Fate Points:");
             characterSheet.FatePoints = Convert.ToInt32(Console.ReadLine());
 
-            CharacterSheets.Add(characterSheet);
+            Items.Add(characterSheet);
         }
 
         public void AddNewSavageWorldsCharacter(SavageWorldsCharacterSheet characterSheet)
@@ -303,7 +304,7 @@ namespace CharacterSheets
             characterSheet.Pace = 6;
             characterSheet.Parry = ((int)characterSheet.Fighting / 2) + 2;
             characterSheet.Toughness = ((int)characterSheet.Vigor / 2) + 2;
-            CharacterSheets.Add(characterSheet);
+            Items.Add(characterSheet);
         }
 
         public void AddNewCallOfCthulhuCharacter(CallOfCthulhuCharacterSheet characterSheet)
@@ -334,14 +335,14 @@ namespace CharacterSheets
             characterSheet.Sanity = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Magic Points");
             characterSheet.MagicPoints = Convert.ToInt32(Console.ReadLine());
-            CharacterSheets.Add(characterSheet);
+            Items.Add(characterSheet);
         }
 
         public CharacterSheet SelectCharacterSheetView(Group groupSelected)
         {
             CharacterSheet result;
             int selectedId;
-            IEnumerable<CharacterSheet> validCharacterSheets = from sheet in CharacterSheets
+            IEnumerable<CharacterSheet> validCharacterSheets = from sheet in Items
                 where sheet.GroupId == groupSelected.Id
                 select sheet;
             
@@ -382,7 +383,7 @@ namespace CharacterSheets
 
         public void RemoveCharacterSheet(CharacterSheet characterSheetToRemove)
         {
-            CharacterSheets.Remove(characterSheetToRemove);
+            Items.Remove(characterSheetToRemove);
         }
 
     }

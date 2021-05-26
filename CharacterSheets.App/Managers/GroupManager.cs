@@ -3,18 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+using CharacterSheets.App.Abstract;
+using CharacterSheets.Domain;
 
-namespace CharacterSheets
+namespace CharacterSheets.App.Managers
 {
-    public class GroupService
+    public class GroupManager
     {
-        private List<Group> Groups = new List<Group>();
+        private readonly MenuActionService _actionService;
+        private GroupService _groupService;
+        private CharacterSheetService _characterSheetService;
+        public GroupType typeSelected { get; set; }
 
-        public ConsoleKeyInfo GroupMenuView(MenuActionService actionService)
+        public GroupManager(MenuActionService actionService, GroupService groupService, CharacterSheetService characterSheetService)
         {
-            var groupMenu = actionService.GetMenuActionsByMenuName("Group");
-            Console.WriteLine(new string('-',50));
+            _groupService = groupService;
+            _actionService = actionService;
+            _characterSheetService = characterSheetService;
+        }
+
+        public ConsoleKeyInfo MenuView()
+        {
+            var groupMenu = _actionService.GetMenuActionsByMenuName("Group");
+            Console.WriteLine(new string('-', 50));
             Console.WriteLine("Please, choose what you want to do:");
             foreach (var action in groupMenu)
             {
@@ -41,50 +52,27 @@ namespace CharacterSheets
             return option;
         }
 
-        public int AddGroup(GroupType TypeSelected)
+        public int AddNewGroup()
         {
-            Console.WriteLine(new string('-',50));
+            Console.WriteLine(new string('-', 50));
             Console.WriteLine("Enter name for new group:");
             Console.WriteLine(new string('-', 50));
             var name = Console.ReadLine();
-            int id;
-            if (Groups.Any())
-            {
-                id = Groups.Last().Id + 1;
-            }
-            else
-            {
-                id = 1;
-            }
-
-            Groups.Add(new Group(id, name, TypeSelected));
+            int id = _groupService.GetNewId();
+            Group group = new Group(id, name, typeSelected);
+            _groupService.AddItem(group);
 
             return id;
         }
 
-
-        public void RemoveGroup(CharacterSheetService characterSheetService,Group groupToRemove)
+        public Group SelectGroup()
         {
-            IEnumerable<CharacterSheet> characterSheetsToRemove = from sheet in characterSheetService.CharacterSheets
-                where sheet.GroupId == groupToRemove.Id
-                select sheet;
-            while (characterSheetsToRemove.Any())
-            {
-                characterSheetService.RemoveCharacterSheet(characterSheetsToRemove.First());
-            }
-            Groups.Remove(groupToRemove);
-        }
-
-        public Group SelectGroupView(GroupType TypeSelected)
-        {
+            IEnumerable<Group> validGroups = _groupService.GetGroupsByType(typeSelected);
             Group result;
-            int selectedId;
-            IEnumerable<Group> validGroups = from grp in Groups
-                where grp.Type == TypeSelected
-                select grp;
 
             if (validGroups.Any())
             {
+                int selectedId;
                 Console.WriteLine(new string('-', 50));
                 Console.WriteLine("Enter ID to select group:");
                 foreach (var group in validGroups)
@@ -98,7 +86,7 @@ namespace CharacterSheets
                     Int32.TryParse(Console.ReadLine(), out selectedId);
                     if (validGroups.Any(grp => grp.Id == selectedId))
                     {
-                        result = validGroups.Single(grp => grp.Id == selectedId);
+                        result = _groupService.GetItemById(selectedId);
                         break;
                     }
                     else
@@ -116,6 +104,19 @@ namespace CharacterSheets
 
             return result;
         }
+
+        public void RemoveGroup(Group groupToRemove)
+        {
+            IEnumerable<CharacterSheet> characterSheetsToRemove = from sheet in _characterSheetService.Items
+                where sheet.GroupId == groupToRemove.Id
+                select sheet;
+            while (characterSheetsToRemove.Any())
+            {
+                _characterSheetService.RemoveItem(characterSheetsToRemove.First());
+            }
+            _groupService.RemoveItem(groupToRemove);
+        }
+
 
     }
 }

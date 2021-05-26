@@ -1,4 +1,7 @@
 ﻿using System;
+using CharacterSheets.App;
+using CharacterSheets.App.Managers;
+using CharacterSheets.Domain;
 
 namespace CharacterSheets
 {
@@ -7,9 +10,9 @@ namespace CharacterSheets
         static void Main(string[] args)
         {
             MenuActionService actionService = new MenuActionService();
-            actionService = Initialize(actionService);
             GroupService groupService = new GroupService();
             CharacterSheetService characterSheetService = new CharacterSheetService();
+            GroupManager groupManager = new GroupManager(actionService, groupService, characterSheetService);
             Console.WriteLine("Welcome to your character sheet manager!");
             while (true)
             {
@@ -40,24 +43,24 @@ namespace CharacterSheets
                         Console.WriteLine("Option which you chose does not exist");
                     }
                 }
-            
-                Enum.TryParse(option.KeyChar.ToString(), out GroupType typeSelected);
-                option = groupService.GroupMenuView(actionService);
+
+                groupManager.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
+                option = groupManager.MenuView();
 
                 switch (option.KeyChar)
                 {
                     case '1':
-                        int id = groupService.AddGroup(typeSelected);
+                        int id = groupManager.AddNewGroup();
                         break;
                     case '2':
-                        Group groupToRemove = groupService.SelectGroupView(typeSelected);
+                        Group groupToRemove = groupManager.SelectGroup();
                         if (groupToRemove != null)
                         {
-                            groupService.RemoveGroup(characterSheetService, groupToRemove);
+                            groupManager.RemoveGroup(groupToRemove);
                         }
                         break;
                     case '3':
-                        Group groupSelected = groupService.SelectGroupView(typeSelected);
+                        Group groupSelected = groupManager.SelectGroup();
                         if (groupSelected != null)
                         {
                             option = characterSheetService.CharacterSheetView(actionService);
@@ -68,11 +71,17 @@ namespace CharacterSheets
                                     break;
                                 case '2':
                                     CharacterSheet characterSheetToRemove = characterSheetService.SelectCharacterSheetView(groupSelected);
-                                    characterSheetService.RemoveCharacterSheet(characterSheetToRemove);
+                                    if (characterSheetToRemove != null)
+                                    {
+                                        characterSheetService.RemoveCharacterSheet(characterSheetToRemove);
+                                    }
                                     break;
                                 case '3':
                                     CharacterSheet characterSheetSelected = characterSheetService.SelectCharacterSheetView(groupSelected);
-                                    characterSheetSelected.ShowCharacterSheetDetails();
+                                    if (characterSheetSelected != null)
+                                    {
+                                        characterSheetSelected.ShowCharacterSheetDetails();
+                                    }
                                     break;
                             }
                         }
@@ -83,20 +92,6 @@ namespace CharacterSheets
 
         }
 
-        private static MenuActionService Initialize(MenuActionService actionService)
-        {
-            actionService.AddNewAction(1, "Warhammer 2nd edition", "Main");
-            actionService.AddNewAction(2, "Savage Worlds", "Main");
-            actionService.AddNewAction(3, "Call of Cthulhu 7th edition", "Main");
-
-            actionService.AddNewAction(1, "Add group", "Group");
-            actionService.AddNewAction(2, "Remove group", "Group");
-            actionService.AddNewAction(3, "Select group", "Group");
-
-            actionService.AddNewAction(1, "Add character sheet", "Character Sheet");
-            actionService.AddNewAction(2, "Remove character sheet", "Character Sheet");
-            actionService.AddNewAction(3, "Show character sheet details", "Character Sheet");
-            return actionService;
-        }
+        
     }
 }

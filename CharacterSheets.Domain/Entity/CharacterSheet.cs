@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CharacterSheets.Domain.Common;
 
-namespace CharacterSheets
+namespace CharacterSheets.Domain
 {
-    public abstract class CharacterSheet
+    public abstract class CharacterSheet : BaseEntity
     {
-        public int Id { get; set; }
         public int GroupId { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }

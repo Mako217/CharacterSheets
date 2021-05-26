@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CharacterSheets.Domain.Common;
 
-namespace CharacterSheets
+namespace CharacterSheets.Domain
 {
-    public class Group
+    public class Group : BaseEntity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public GroupType Type { get; set; }
 
