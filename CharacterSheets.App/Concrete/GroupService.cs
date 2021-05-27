@@ -11,16 +11,15 @@ namespace CharacterSheets.App
 {
     public class GroupService : BaseService<Group>
     {
+        public GroupType typeSelected { get; set; }
 
-        public IEnumerable<Group> GetGroupsByType(GroupType type)
+        public IEnumerable<Group> GetGroupsByType()
         {
             IEnumerable<Group> validGroups = from grp in Items
-                where grp.Type == type
+                where grp.Type == typeSelected
                 select grp;
 
             return validGroups;
         }
-
-
     }
 }

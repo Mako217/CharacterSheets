@@ -38,9 +38,9 @@ namespace CharacterSheets.App
             AddItem(new MenuAction(2, "Remove group", "Group"));
             AddItem(new MenuAction(3, "Select group", "Group"));
 
-            AddItem(new MenuAction(1, "Add character sheet", "Character Sheet"));
-            AddItem(new MenuAction(2, "Remove character sheet", "Character Sheet"));
-            AddItem(new MenuAction(3, "Show character sheet details", "Character Sheet"));
+            AddItem(new MenuAction(1, "Add character sheet", "CharacterSheet"));
+            AddItem(new MenuAction(2, "Remove character sheet", "CharacterSheet"));
+            AddItem(new MenuAction(3, "Show character sheet details", "CharacterSheet"));
         }
     }
 }

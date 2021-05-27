@@ -10,7 +10,6 @@ namespace CharacterSheets.Domain
     public abstract class CharacterSheet : BaseEntity
     {
         public int GroupId { get; set; }
-        public string Name { get; set; }
         public int Age { get; set; }
         public string Sex { get; set; }
 

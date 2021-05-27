@@ -4,70 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CharacterSheets.App.Abstract;
+using CharacterSheets.App.Common;
 using CharacterSheets.Domain;
 
 namespace CharacterSheets.App.Managers
 {
-    public class GroupManager
+    public class GroupManager : BaseManager<Group>
     {
-        private readonly MenuActionService _actionService;
-        private GroupService _groupService;
-        private CharacterSheetService _characterSheetService;
-        public GroupType typeSelected { get; set; }
 
-        public GroupManager(MenuActionService actionService, GroupService groupService, CharacterSheetService characterSheetService)
+
+
+        public GroupManager(MenuActionService actionService, GroupService groupService, CharacterSheetService characterSheetService) : base(actionService, groupService, characterSheetService)
         {
-            _groupService = groupService;
-            _actionService = actionService;
-            _characterSheetService = characterSheetService;
         }
 
-        public ConsoleKeyInfo MenuView()
+        public override Group SelectItem()
         {
-            var groupMenu = _actionService.GetMenuActionsByMenuName("Group");
-            Console.WriteLine(new string('-', 50));
-            Console.WriteLine("Please, choose what you want to do:");
-            foreach (var action in groupMenu)
-            {
-                Console.WriteLine($"{action.Id}. {action.Name}");
-            }
-
-            ConsoleKeyInfo option;
-            while (true)
-            {
-                Console.WriteLine(new string('-', 50));
-                option = Console.ReadKey();
-                Console.WriteLine();
-                Int32.TryParse(option.KeyChar.ToString(), out int optionInt);
-                if (optionInt >= 1 && optionInt <= groupMenu.Count)
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Option which you chose does not exist");
-                }
-            }
-
-            return option;
-        }
-
-        public int AddNewGroup()
-        {
-            Console.WriteLine(new string('-', 50));
-            Console.WriteLine("Enter name for new group:");
-            Console.WriteLine(new string('-', 50));
-            var name = Console.ReadLine();
-            int id = _groupService.GetNewId();
-            Group group = new Group(id, name, typeSelected);
-            _groupService.AddItem(group);
-
-            return id;
-        }
-
-        public Group SelectGroup()
-        {
-            IEnumerable<Group> validGroups = _groupService.GetGroupsByType(typeSelected);
+            IEnumerable<Group> validGroups = ((GroupService)_groupService).GetGroupsByType();
             Group result;
 
             if (validGroups.Any())
@@ -105,7 +58,22 @@ namespace CharacterSheets.App.Managers
             return result;
         }
 
-        public void RemoveGroup(Group groupToRemove)
+        public override int AddNewItem()
+        {
+            Console.WriteLine(new string('-', 50));
+            Console.WriteLine("Enter name for new group:");
+            Console.WriteLine(new string('-', 50));
+            var name = Console.ReadLine();
+            int id = _groupService.GetNewId();
+            Group group = new Group(id, name, ((GroupService)_groupService).typeSelected);
+            _groupService.AddItem(group);
+
+            return id;
+        }
+
+
+
+        public override void RemoveItem(Group groupToRemove)
         {
             IEnumerable<CharacterSheet> characterSheetsToRemove = from sheet in _characterSheetService.Items
                 where sheet.GroupId == groupToRemove.Id
@@ -116,6 +84,7 @@ namespace CharacterSheets.App.Managers
             }
             _groupService.RemoveItem(groupToRemove);
         }
+
 
 
     }

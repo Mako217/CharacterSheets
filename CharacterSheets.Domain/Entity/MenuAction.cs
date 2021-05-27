@@ -9,7 +9,6 @@ namespace CharacterSheets.Domain
 {
     public class MenuAction : BaseEntity
     {
-        public string Name  { get; set; }
         public string MenuName { get; set; }
 
         public MenuAction(int id, string name, string menuName)

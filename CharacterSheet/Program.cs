@@ -13,6 +13,8 @@ namespace CharacterSheets
             GroupService groupService = new GroupService();
             CharacterSheetService characterSheetService = new CharacterSheetService();
             GroupManager groupManager = new GroupManager(actionService, groupService, characterSheetService);
+            CharacterSheetManager characterSheetManager =
+                new CharacterSheetManager(actionService, groupService, characterSheetService);
             Console.WriteLine("Welcome to your character sheet manager!");
             while (true)
             {
@@ -44,40 +46,40 @@ namespace CharacterSheets
                     }
                 }
 
-                groupManager.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
+                groupService.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
                 option = groupManager.MenuView();
 
                 switch (option.KeyChar)
                 {
                     case '1':
-                        int id = groupManager.AddNewGroup();
+                        int id = groupManager.AddNewItem();
                         break;
                     case '2':
-                        Group groupToRemove = groupManager.SelectGroup();
+                        Group groupToRemove = groupManager.SelectItem();
                         if (groupToRemove != null)
                         {
-                            groupManager.RemoveGroup(groupToRemove);
+                            groupManager.RemoveItem(groupToRemove);
                         }
                         break;
                     case '3':
-                        Group groupSelected = groupManager.SelectGroup();
-                        if (groupSelected != null)
+                        characterSheetService.groupSelected = groupManager.SelectItem();
+                        if (characterSheetService.groupSelected != null)
                         {
-                            option = characterSheetService.CharacterSheetView(actionService);
+                            option = characterSheetManager.MenuView();
                             switch (option.KeyChar)
                             {
                                 case '1':
-                                    characterSheetService.AddNewCharacterSheet(groupSelected);
+                                    characterSheetManager.AddNewItem();
                                     break;
                                 case '2':
-                                    CharacterSheet characterSheetToRemove = characterSheetService.SelectCharacterSheetView(groupSelected);
+                                    CharacterSheet characterSheetToRemove = characterSheetManager.SelectItem();
                                     if (characterSheetToRemove != null)
                                     {
-                                        characterSheetService.RemoveCharacterSheet(characterSheetToRemove);
+                                        characterSheetManager.RemoveItem(characterSheetToRemove);
                                     }
                                     break;
                                 case '3':
-                                    CharacterSheet characterSheetSelected = characterSheetService.SelectCharacterSheetView(groupSelected);
+                                    CharacterSheet characterSheetSelected = characterSheetManager.SelectItem();
                                     if (characterSheetSelected != null)
                                     {
                                         characterSheetSelected.ShowCharacterSheetDetails();
