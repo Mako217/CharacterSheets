@@ -19,9 +19,9 @@ namespace CharacterSheets.App.Common
             _characterSheetService = characterSheetService;
         }
 
-        public IService<MenuAction> _actionService { get; set; }
-        public IService<Group> _groupService { get; set; }
-        public IService<CharacterSheet> _characterSheetService { get; set; }
+        private readonly IService<MenuAction> _actionService;
+        private readonly IService<Group> _groupService;
+        private readonly IService<CharacterSheet> _characterSheetService;
 
         public ConsoleKeyInfo MenuView()
         {
