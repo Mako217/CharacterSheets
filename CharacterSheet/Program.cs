@@ -14,7 +14,7 @@ namespace CharacterSheets
             CharacterSheetService characterSheetService = new CharacterSheetService();
             GroupManager groupManager = new GroupManager(actionService, groupService, characterSheetService);
             CharacterSheetManager characterSheetManager =
-                new CharacterSheetManager(actionService, groupService, characterSheetService);
+                new CharacterSheetManager(actionService, characterSheetService);
             Console.WriteLine("Welcome to your character sheet manager!");
             while (true)
             {
@@ -56,13 +56,13 @@ namespace CharacterSheets
                         break;
                     case '2':
                         Group groupToRemove = groupManager.SelectItem();
-                        if (groupToRemove != null)
+                        if (groupToRemove != null) 
                         {
-                            groupManager.RemoveItem(groupToRemove);
+                            groupManager.RemoveItem();
                         }
                         break;
                     case '3':
-                        characterSheetService.groupSelected = groupManager.SelectItem();
+                        groupManager.SelectItem();
                         if (characterSheetService.groupSelected != null)
                         {
                             option = characterSheetManager.MenuView();
@@ -75,14 +75,14 @@ namespace CharacterSheets
                                     CharacterSheet characterSheetToRemove = characterSheetManager.SelectItem();
                                     if (characterSheetToRemove != null)
                                     {
-                                        characterSheetManager.RemoveItem(characterSheetToRemove);
+                                        characterSheetManager.RemoveItem();
                                     }
                                     break;
                                 case '3':
                                     CharacterSheet characterSheetSelected = characterSheetManager.SelectItem();
                                     if (characterSheetSelected != null)
                                     {
-                                        characterSheetSelected.ShowCharacterSheetDetails();
+                                        characterSheetManager.ShowCharacterSheetDetails();
                                     }
                                     break;
                             }

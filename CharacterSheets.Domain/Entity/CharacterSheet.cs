@@ -13,7 +13,7 @@ namespace CharacterSheets.Domain
         public int Age { get; set; }
         public string Sex { get; set; }
 
-        public abstract void ShowCharacterSheetDetails();
+        public abstract string GetCharacterSheetDetails();
     }
 
     public class WarhammerCharacterSheet : CharacterSheet
@@ -38,27 +38,33 @@ namespace CharacterSheets.Domain
         public int InsanityPoints { get; set; }
         public int FatePoints { get; set; }
 
-        public override void ShowCharacterSheetDetails()
+        public override string GetCharacterSheetDetails()
         {
-            Console.WriteLine(new string('-', 50));
-            Console.WriteLine($"Career Path: {CareerPath}");
-            Console.WriteLine($"Race: {Race}");
-            Console.WriteLine($"Weapon Skill: {WeaponSkill}");
-            Console.WriteLine($"Ballistic Skill: {BallisticSkill}");
-            Console.WriteLine($"Strength: {Strength}");
-            Console.WriteLine($"Toughness: {Toughness}");
-            Console.WriteLine($"Agility: {Agility}");
-            Console.WriteLine($"Intelligence: {Intelligence}");
-            Console.WriteLine($"Will Power: {WillPower}");
-            Console.WriteLine($"Fellowship: {Fellowship}");
-            Console.WriteLine($"Attacks: {Attacks}");
-            Console.WriteLine($"Wounds: {Wounds}");
-            Console.WriteLine($"Strength Bonus: {StrengthBonus}");
-            Console.WriteLine($"Toughness Bonus: {ToughnessBonus}");
-            Console.WriteLine($"Movement: {Movement}");
-            Console.WriteLine($"Magic: {Magic}");
-            Console.WriteLine($"Insanity Points: {InsanityPoints}");
-            Console.WriteLine($"Fate Points: {FatePoints}");
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(new string('-', 50));
+            stringBuilder.AppendLine("Warhammer character sheet");
+            stringBuilder.AppendLine(new string('-', 50));
+            stringBuilder.AppendLine($"Name: {Name}");
+            stringBuilder.AppendLine($"Age: {Age}");
+            stringBuilder.AppendLine($"Sex: {Sex}");
+            stringBuilder.AppendLine($"Race: {Race}");
+            stringBuilder.AppendLine($"Weapon Skill: {WeaponSkill}");
+            stringBuilder.AppendLine($"Ballistic Skill: {BallisticSkill}");
+            stringBuilder.AppendLine($"Strength: {Strength}");
+            stringBuilder.AppendLine($"Toughness: {Toughness}");
+            stringBuilder.AppendLine($"Agility: {Agility}");
+            stringBuilder.AppendLine($"Intelligence: {Intelligence}");
+            stringBuilder.AppendLine($"Will Power: {WillPower}");
+            stringBuilder.AppendLine($"Fellowship: {Fellowship}");
+            stringBuilder.AppendLine($"Attacks: {Attacks}");
+            stringBuilder.AppendLine($"Wounds: {Wounds}");
+            stringBuilder.AppendLine($"Strength Bonus: {StrengthBonus}");
+            stringBuilder.AppendLine($"Toughness Bonus: {ToughnessBonus}");
+            stringBuilder.AppendLine($"Movement: {Movement}");
+            stringBuilder.AppendLine($"Magic: {Magic}");
+            stringBuilder.AppendLine($"Insanity Points: {InsanityPoints}");
+            stringBuilder.AppendLine($"Fate Points: {FatePoints}");
+            return stringBuilder.ToString();
         }
     }
 
@@ -75,19 +81,26 @@ namespace CharacterSheets.Domain
         public int Parry { get; set; }
         public int Toughness { get; set; }
 
-        public override void ShowCharacterSheetDetails()
+        public override string GetCharacterSheetDetails()
         {
-            Console.WriteLine(new string('-', 50));
-            Console.WriteLine($"Race: {Race}");
-            Console.WriteLine($"Agility: {Agility}");
-            Console.WriteLine($"Fighting: {Fighting}");
-            Console.WriteLine($"Smarts: {Smarts}");
-            Console.WriteLine($"Spirit: {Spirit}");
-            Console.WriteLine($"Strength: {Strength}");
-            Console.WriteLine($"Vigor: {Vigor}");
-            Console.WriteLine($"Pace: {Pace}");
-            Console.WriteLine($"Parry: {Parry}");
-            Console.WriteLine($"Toughness: {Toughness}");
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(new string('-', 50));
+            stringBuilder.AppendLine("Savage Worlds character sheet");
+            stringBuilder.AppendLine(new string('-', 50));
+            stringBuilder.AppendLine($"Name: {Name}");
+            stringBuilder.AppendLine($"Age: {Age}");
+            stringBuilder.AppendLine($"Sex: {Sex}");
+            stringBuilder.AppendLine($"Race: {Race}");
+            stringBuilder.AppendLine($"Agility: {Agility}");
+            stringBuilder.AppendLine($"Fighting: {Fighting}");
+            stringBuilder.AppendLine($"Smarts: {Smarts}");
+            stringBuilder.AppendLine($"Spirit: {Spirit}");
+            stringBuilder.AppendLine($"Strength: {Strength}");
+            stringBuilder.AppendLine($"Vigor: {Vigor}");
+            stringBuilder.AppendLine($"Pace: {Pace}");
+            stringBuilder.AppendLine($"Parry: {Parry}");
+            stringBuilder.AppendLine($"Toughness: {Toughness}");
+            return stringBuilder.ToString();
         }
     }
 
@@ -107,22 +120,29 @@ namespace CharacterSheets.Domain
         public int Sanity { get; set; }
         public int MagicPoints { get; set; }
         
-        public override void ShowCharacterSheetDetails()
+        public override string GetCharacterSheetDetails()
         {
-            Console.WriteLine(new string('-', 50));
-            Console.WriteLine($"Occupation: {Occupation}");
-            Console.WriteLine($"Strength: {Strength}");
-            Console.WriteLine($"Dexterity: {Dexterity}");
-            Console.WriteLine($"Power: {Power}");
-            Console.WriteLine($"Constitution: {Constitution}");
-            Console.WriteLine($"Appearance: {Appearance}");
-            Console.WriteLine($"Education: {Education}");
-            Console.WriteLine($"Size: {Size}");
-            Console.WriteLine($"Intelligence: {Intelligence}");
-            Console.WriteLine($"Hit Points: {HitPoints}");
-            Console.WriteLine($"Luck: {Luck}");
-            Console.WriteLine($"Sanity: {Sanity}");
-            Console.WriteLine($"Magic Points: {MagicPoints}");
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine(new string('-', 50));
+            stringBuilder.AppendLine("Call of Cthulhu character sheet");
+            stringBuilder.AppendLine(new string('-', 50));
+            stringBuilder.AppendLine($"Name: {Name}");
+            stringBuilder.AppendLine($"Age: {Age}");
+            stringBuilder.AppendLine($"Sex: {Sex}");
+            stringBuilder.AppendLine($"Occupation: {Occupation}");
+            stringBuilder.AppendLine($"Strength: {Strength}");
+            stringBuilder.AppendLine($"Dexterity: {Dexterity}");
+            stringBuilder.AppendLine($"Power: {Power}");
+            stringBuilder.AppendLine($"Constitution: {Constitution}");
+            stringBuilder.AppendLine($"Appearance: {Appearance}");
+            stringBuilder.AppendLine($"Education: {Education}");
+            stringBuilder.AppendLine($"Size: {Size}");
+            stringBuilder.AppendLine($"Intelligence: {Intelligence}");
+            stringBuilder.AppendLine($"Hit Points: {HitPoints}");
+            stringBuilder.AppendLine($"Luck: {Luck}");
+            stringBuilder.AppendLine($"Sanity: {Sanity}");
+            stringBuilder.AppendLine($"Magic Points: {MagicPoints}");
+            return stringBuilder.ToString();
         }
     }
 

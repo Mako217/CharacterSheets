@@ -14,13 +14,18 @@ namespace CharacterSheets.App.Managers
 
 
 
-        public GroupManager(MenuActionService actionService, GroupService groupService, CharacterSheetService characterSheetService) : base(actionService, groupService, characterSheetService)
+        public GroupManager(MenuActionService actionService, GroupService groupService, CharacterSheetService characterSheetService) : base(actionService)
         {
+            _groupService = groupService;
+            _characterSheetService = characterSheetService;
         }
+
+        private readonly GroupService _groupService;
+        private readonly CharacterSheetService _characterSheetService;
 
         public override Group SelectItem()
         {
-            IEnumerable<Group> validGroups = ((GroupService)_groupService).GetGroupsByType();
+            IEnumerable<Group> validGroups = _groupService.GetGroupsByType();
             Group result;
 
             if (validGroups.Any())
@@ -55,6 +60,7 @@ namespace CharacterSheets.App.Managers
                 result = null;
             }
 
+            _characterSheetService.groupSelected = result;
             return result;
         }
 
@@ -65,7 +71,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine(new string('-', 50));
             var name = Console.ReadLine();
             int id = _groupService.GetNewId();
-            Group group = new Group(id, name, ((GroupService)_groupService).typeSelected);
+            Group group = new Group(id, name, _groupService.typeSelected);
             _groupService.AddItem(group);
 
             return id;
@@ -73,19 +79,15 @@ namespace CharacterSheets.App.Managers
 
 
 
-        public override void RemoveItem(Group groupToRemove)
+        public override void RemoveItem()
         {
-            IEnumerable<CharacterSheet> characterSheetsToRemove = from sheet in _characterSheetService.Items
-                where sheet.GroupId == groupToRemove.Id
-                select sheet;
+            IEnumerable<CharacterSheet> characterSheetsToRemove = _characterSheetService.GetCharacterSheetByGroup();
             while (characterSheetsToRemove.Any())
             {
                 _characterSheetService.RemoveItem(characterSheetsToRemove.First());
             }
-            _groupService.RemoveItem(groupToRemove);
+            _groupService.RemoveItem(_characterSheetService.groupSelected);
         }
-
-
 
     }
 }

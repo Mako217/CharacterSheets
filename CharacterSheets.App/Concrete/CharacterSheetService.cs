@@ -11,6 +11,7 @@ namespace CharacterSheets.App
     public class CharacterSheetService : BaseService<CharacterSheet>
     {
         public Group groupSelected { get; set; }
+        public CharacterSheet characterSheetSelected { get; set; }
 
         public IEnumerable<CharacterSheet> GetCharacterSheetByGroup()
         {

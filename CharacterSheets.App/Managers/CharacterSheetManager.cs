@@ -10,13 +10,16 @@ namespace CharacterSheets.App.Managers
 {
     public class CharacterSheetManager : BaseManager<CharacterSheet>
     {
-        public CharacterSheetManager(MenuActionService actionService, GroupService groupService, CharacterSheetService characterSheetService) : base(actionService, groupService, characterSheetService)
+        public CharacterSheetManager(MenuActionService actionService, CharacterSheetService characterSheetService) : base(actionService)
         {
+            _characterSheetService = characterSheetService;
         }
+
+        private readonly CharacterSheetService _characterSheetService;
 
         public override CharacterSheet SelectItem()
         {
-            IEnumerable<CharacterSheet> validCharacterSheets = ((CharacterSheetService)_characterSheetService).GetCharacterSheetByGroup();
+            IEnumerable<CharacterSheet> validCharacterSheets = _characterSheetService.GetCharacterSheetByGroup();
             CharacterSheet result;
 
             if (validCharacterSheets.Any())
@@ -51,12 +54,13 @@ namespace CharacterSheets.App.Managers
                 result = null;
             }
 
+            _characterSheetService.characterSheetSelected = result;
             return result;
         }
 
-        public override void RemoveItem(CharacterSheet characterSheetToRemove)
+        public override void RemoveItem()
         {
-            _characterSheetService.RemoveItem(characterSheetToRemove);
+            _characterSheetService.RemoveItem(_characterSheetService.characterSheetSelected);
         }
 
         public override int AddNewItem()
@@ -69,7 +73,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine("Enter age:");
             Int32.TryParse(Console.ReadLine(), out int age);
             int id = _characterSheetService.GetNewId();
-            Group group = ((CharacterSheetService) _characterSheetService).groupSelected;
+            Group group = _characterSheetService.groupSelected;
 
             switch (group.Type)
             {
@@ -104,7 +108,7 @@ namespace CharacterSheets.App.Managers
             return id;
         }
 
-        public void AddNewWarhammerCharacter(WarhammerCharacterSheet characterSheet)
+        private void AddNewWarhammerCharacter(WarhammerCharacterSheet characterSheet)
         {
             Console.WriteLine("Enter Career path:");
             characterSheet.CareerPath = Console.ReadLine();
@@ -144,7 +148,7 @@ namespace CharacterSheets.App.Managers
             _characterSheetService.AddItem(characterSheet);
         }
 
-        public void AddNewSavageWorldsCharacter(SavageWorldsCharacterSheet characterSheet)
+        private void AddNewSavageWorldsCharacter(SavageWorldsCharacterSheet characterSheet)
         {
             Console.WriteLine("Enter Race:");
             characterSheet.Race = Console.ReadLine();
@@ -152,163 +156,85 @@ namespace CharacterSheets.App.Managers
             while (true)
             {
                 int agility = Convert.ToInt32(Console.ReadLine());
-                switch (agility)
+                if (agility == 4 || agility == 6 || agility == 8 || agility == 10 || agility == 12)
                 {
-                    case 4:
-                        characterSheet.Agility = DiceType.D4;
-                        break;
-                    case 6:
-                        characterSheet.Agility = DiceType.D6;
-                        break;
-                    case 8:
-                        characterSheet.Agility = DiceType.D8;
-                        break;
-                    case 10:
-                        characterSheet.Agility = DiceType.D10;
-                        break;
-                    case 12:
-                        characterSheet.Agility = DiceType.D12;
-                        break;
-                    default:
-                        Console.WriteLine("Wrong value.");
-                        continue;
+                    characterSheet.Agility = (DiceType)agility;
+                    break;
                 }
-                break;
+                else
+                {
+                    Console.WriteLine("Wrong value.");
+                }
             }
             Console.WriteLine("Enter Fighting (4, 6, 8, 10 or 12):");
             while (true)
             {
                 int fighting = Convert.ToInt32(Console.ReadLine());
-                switch (fighting)
+                if (fighting == 4 || fighting == 6 || fighting == 8 || fighting == 10 || fighting == 12)
                 {
-                    case 4:
-                        characterSheet.Fighting = DiceType.D4;
-                        break;
-                    case 6:
-                        characterSheet.Fighting = DiceType.D6;
-                        break;
-                    case 8:
-                        characterSheet.Fighting = DiceType.D8;
-                        break;
-                    case 10:
-                        characterSheet.Fighting = DiceType.D10;
-                        break;
-                    case 12:
-                        characterSheet.Fighting = DiceType.D12;
-                        break;
-                    default:
-                        Console.WriteLine("Wrong value.");
-                        continue;
+                    characterSheet.Fighting = (DiceType)fighting;
+                    break;
                 }
-                break;
+                else
+                {
+                    Console.WriteLine("Wrong value.");
+                }
             }
             Console.WriteLine("Enter Smarts (4, 6, 8, 10 or 12):");
             while (true)
             {
                 int smarts = Convert.ToInt32(Console.ReadLine());
-                switch (smarts)
+                if (smarts == 4 || smarts == 6 || smarts == 8 || smarts == 10 || smarts == 12)
                 {
-                    case 4:
-                        characterSheet.Smarts = DiceType.D4;
-                        break;
-                    case 6:
-                        characterSheet.Smarts = DiceType.D6;
-                        break;
-                    case 8:
-                        characterSheet.Smarts = DiceType.D8;
-                        break;
-                    case 10:
-                        characterSheet.Smarts = DiceType.D10;
-                        break;
-                    case 12:
-                        characterSheet.Smarts = DiceType.D12;
-                        break;
-                    default:
-                        Console.WriteLine("Wrong value.");
-                        continue;
+                    characterSheet.Smarts = (DiceType)smarts;
+                    break;
                 }
-                break;
+                else
+                {
+                    Console.WriteLine("Wrong value.");
+                }
             }
             Console.WriteLine("Enter Spirit (4, 6, 8, 10 or 12):");
             while (true)
             {
                 int spirit = Convert.ToInt32(Console.ReadLine());
-                switch (spirit)
+                if (spirit == 4 || spirit == 6 || spirit == 8 || spirit == 10 || spirit == 12)
                 {
-                    case 4:
-                        characterSheet.Spirit = DiceType.D4;
-                        break;
-                    case 6:
-                        characterSheet.Spirit = DiceType.D6;
-                        break;
-                    case 8:
-                        characterSheet.Spirit = DiceType.D8;
-                        break;
-                    case 10:
-                        characterSheet.Spirit = DiceType.D10;
-                        break;
-                    case 12:
-                        characterSheet.Spirit = DiceType.D12;
-                        break;
-                    default:
-                        Console.WriteLine("Wrong value.");
-                        continue;
+                    characterSheet.Spirit = (DiceType)spirit;
+                    break;
                 }
-                break;
+                else
+                {
+                    Console.WriteLine("Wrong value.");
+                }
             }
             Console.WriteLine("Enter Strength (4, 6, 8, 10 or 12):");
             while (true)
             {
                 int strength = Convert.ToInt32(Console.ReadLine());
-                switch (strength)
+                if (strength == 4 || strength == 6 || strength == 8 || strength == 10 || strength == 12)
                 {
-                    case 4:
-                        characterSheet.Strength = DiceType.D4;
-                        break;
-                    case 6:
-                        characterSheet.Strength = DiceType.D6;
-                        break;
-                    case 8:
-                        characterSheet.Strength = DiceType.D8;
-                        break;
-                    case 10:
-                        characterSheet.Strength = DiceType.D10;
-                        break;
-                    case 12:
-                        characterSheet.Strength = DiceType.D12;
-                        break;
-                    default:
-                        Console.WriteLine("Wrong value.");
-                        continue;
+                    characterSheet.Strength = (DiceType)strength;
+                    break;
                 }
-                break;
+                else
+                {
+                    Console.WriteLine("Wrong value.");
+                }
             }
             Console.WriteLine("Enter Vigor (4, 6, 8, 10 or 12):");
             while (true)
             {
                 int vigor = Convert.ToInt32(Console.ReadLine());
-                switch (vigor)
+                if (vigor == 4 || vigor == 6 || vigor == 8 || vigor == 10 || vigor == 12)
                 {
-                    case 4:
-                        characterSheet.Vigor = DiceType.D4;
-                        break;
-                    case 6:
-                        characterSheet.Vigor = DiceType.D6;
-                        break;
-                    case 8:
-                        characterSheet.Vigor = DiceType.D8;
-                        break;
-                    case 10:
-                        characterSheet.Vigor = DiceType.D10;
-                        break;
-                    case 12:
-                        characterSheet.Vigor = DiceType.D12;
-                        break;
-                    default:
-                        Console.WriteLine("Wrong value.");
-                        continue;
+                    characterSheet.Vigor = (DiceType)vigor;
+                    break;
                 }
-                break;
+                else
+                {
+                    Console.WriteLine("Wrong value.");
+                }
             }
             characterSheet.Pace = 6;
             characterSheet.Parry = ((int)characterSheet.Fighting / 2) + 2;
@@ -316,7 +242,7 @@ namespace CharacterSheets.App.Managers
             _characterSheetService.AddItem(characterSheet);
         }
 
-        public void AddNewCallOfCthulhuCharacter(CallOfCthulhuCharacterSheet characterSheet)
+        private void AddNewCallOfCthulhuCharacter(CallOfCthulhuCharacterSheet characterSheet)
         {
             Console.WriteLine("Enter Occupation:");
             characterSheet.Occupation = Console.ReadLine();
@@ -346,5 +272,11 @@ namespace CharacterSheets.App.Managers
             characterSheet.MagicPoints = Convert.ToInt32(Console.ReadLine());
             _characterSheetService.AddItem(characterSheet);
         }
+
+        public void ShowCharacterSheetDetails()
+        {
+            Console.WriteLine(_characterSheetService.characterSheetSelected.GetCharacterSheetDetails());
+        }
+
     }
 }

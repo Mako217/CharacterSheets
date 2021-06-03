@@ -12,7 +12,7 @@ namespace CharacterSheets.App.Abstract
         ConsoleKeyInfo MenuView();
         T SelectItem();
         int AddNewItem();
-        void RemoveItem(T itemToRemove);
+        void RemoveItem();
 
     }
 }
