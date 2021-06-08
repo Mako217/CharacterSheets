@@ -41,6 +41,7 @@ namespace CharacterSheets.App
             AddItem(new MenuAction(1, "Add character sheet", "CharacterSheet"));
             AddItem(new MenuAction(2, "Remove character sheet", "CharacterSheet"));
             AddItem(new MenuAction(3, "Show character sheet details", "CharacterSheet"));
+            AddItem(new MenuAction(4, "Edit character sheet", "CharacterSheet"));
         }
     }
 }

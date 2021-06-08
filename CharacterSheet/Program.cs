@@ -85,6 +85,13 @@ namespace CharacterSheets
                                         characterSheetManager.ShowCharacterSheetDetails();
                                     }
                                     break;
+                                case '4':
+                                    CharacterSheet characterSheetToEdit = characterSheetManager.SelectItem();
+                                    if (characterSheetToEdit != null)
+                                    {
+                                        characterSheetManager.EditCharacterSheet();
+                                    }
+                                    break;
                             }
                         }
                         break;

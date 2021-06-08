@@ -134,8 +134,8 @@ namespace CharacterSheets.App.Managers
             characterSheet.Attacks = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Wounds:");
             characterSheet.Wounds = Convert.ToInt32(Console.ReadLine());
-            characterSheet.StrengthBonus = Convert.ToInt32(characterSheet.Strength.ToString().ToCharArray()[0].ToString());
-            characterSheet.ToughnessBonus = Convert.ToInt32(characterSheet.Toughness.ToString().ToCharArray()[0].ToString());
+            characterSheet.StrengthBonus = characterSheet.Strength / 10;
+            characterSheet.ToughnessBonus = characterSheet.Toughness / 10;
             Console.WriteLine("Enter Movement:");
             characterSheet.Movement = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Enter Magic:");
@@ -275,7 +275,239 @@ namespace CharacterSheets.App.Managers
 
         public void ShowCharacterSheetDetails()
         {
-            Console.WriteLine(_characterSheetService.characterSheetSelected.GetCharacterSheetDetails());
+            Console.Write(_characterSheetService.characterSheetSelected.GetCharacterSheetDetails());
+        }
+
+        public void EditCharacterSheet()
+        {
+            Console.WriteLine(new string('-', 50));
+            Console.WriteLine("Please select a number of element which you want to edit");
+            Console.WriteLine(new string('-', 50));
+            ShowCharacterSheetDetails();
+            Console.WriteLine(new string('-', 50));
+            int option;
+            while(true)
+            {
+                option = Convert.ToInt32(Console.ReadLine());
+                if(option >= 1 && option <= _characterSheetService.characterSheetSelected.attributesCount)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("This element does not exist...");
+                }
+            }
+
+            Console.WriteLine(new string('-', 50));
+            Console.WriteLine("Please enter new value for this element");
+            Console.WriteLine(new string('-', 50));
+            string value = Console.ReadLine();
+
+            switch (_characterSheetService.groupSelected.Type)
+            {
+                case GroupType.Warhammer:
+                    EditWarhammerCharacterSheet(option, value);
+                    break;
+                case GroupType.SavageWorlds:
+                    EditSavageWorldsCharacterSheet(option, value);
+                    break;
+                case GroupType.CallOfCthulhu:
+                    EditCthulhuCharacterSheet(option, value);
+                    break;
+            }
+        }
+
+        private void EditWarhammerCharacterSheet(int option, string value)
+        {
+            WarhammerCharacterSheet characterSheet = (WarhammerCharacterSheet)_characterSheetService.characterSheetSelected;
+            switch (option)
+            {
+                case 1:
+                    characterSheet.Name = value;
+                    break;
+                case 2:
+                    characterSheet.Age = Convert.ToInt32(value);
+                    break;
+                case 3:
+                    characterSheet.Sex = value;
+                    break;
+                case 4:
+                    characterSheet.Race = value;
+                    break;
+                case 5:
+                    characterSheet.WeaponSkill = Convert.ToInt32(value);
+                    break;
+                case 6:
+                    characterSheet.BallisticSkill = Convert.ToInt32(value);
+                    break;
+                case 7:
+                    characterSheet.Strength = Convert.ToInt32(value);
+                    characterSheet.StrengthBonus = characterSheet.Strength / 10;
+                    break;
+                case 8:
+                    characterSheet.Toughness = Convert.ToInt32(value);
+                    characterSheet.ToughnessBonus = characterSheet.Toughness / 10;
+                    break;
+                case 9:
+                    characterSheet.Agility = Convert.ToInt32(value);
+                    break;
+                case 10:
+                    characterSheet.Intelligence = Convert.ToInt32(value);
+                    break;
+                case 11:
+                    characterSheet.WillPower = Convert.ToInt32(value);
+                    break;
+                case 12:
+                    characterSheet.Fellowship = Convert.ToInt32(value);
+                    break;
+                case 13:
+                    characterSheet.Attacks = Convert.ToInt32(value);
+                    break;
+                case 14:
+                    characterSheet.Wounds = Convert.ToInt32(value);
+                    break;
+                case 15:
+                    characterSheet.StrengthBonus = Convert.ToInt32(value);
+                    int sbDiff = characterSheet.StrengthBonus - (characterSheet.Strength / 10);
+                    characterSheet.Strength += sbDiff * 10;
+                    break;
+                case 16:
+                    characterSheet.ToughnessBonus = Convert.ToInt32(value);
+                    int tbDiff = characterSheet.ToughnessBonus - (characterSheet.Toughness / 10);
+                    characterSheet.Toughness += tbDiff * 10;
+                    break;
+                case 17:
+                    characterSheet.Movement = Convert.ToInt32(value);
+                    break;
+                case 18:
+                    characterSheet.Magic = Convert.ToInt32(value);
+                    break;
+                case 19:
+                    characterSheet.InsanityPoints = Convert.ToInt32(value);
+                    break;
+                case 20:
+                    characterSheet.FatePoints = Convert.ToInt32(value);
+                    break;
+            }
+
+        }
+
+        private void EditSavageWorldsCharacterSheet(int option, string value)
+        {
+            SavageWorldsCharacterSheet characterSheet = (SavageWorldsCharacterSheet)_characterSheetService.characterSheetSelected;
+            if (option >= 5 && option <= 10)
+            {
+                while(Convert.ToInt32(value) != 4 && Convert.ToInt32(value) != 6 && Convert.ToInt32(value) != 8 && Convert.ToInt32(value) != 10 && Convert.ToInt32(value) != 12)
+                {
+                    Console.WriteLine("Wrong value. It must equal 4, 6, 8, 10 or 12.");
+                    Console.WriteLine(new string('-', 50));
+                    Console.WriteLine("Please enter new value for this element");
+                    Console.WriteLine(new string('-', 50));
+                    value = Console.ReadLine();
+                }
+            }
+
+            switch(option)
+            {
+                case 1:
+                    characterSheet.Name = value;
+                    break;
+                case 2:
+                    characterSheet.Age = Convert.ToInt32(value);
+                    break;
+                case 3:
+                    characterSheet.Sex = value;
+                    break;
+                case 4:
+                    characterSheet.Race = value;
+                    break;
+                case 5:
+                    characterSheet.Agility = (DiceType)Convert.ToInt32(value);
+                    break;
+                case 6:
+                    characterSheet.Fighting = (DiceType)Convert.ToInt32(value);
+                    break;
+                case 7:
+                    characterSheet.Smarts = (DiceType)Convert.ToInt32(value);
+                    break;
+                case 8:
+                    characterSheet.Spirit = (DiceType)Convert.ToInt32(value);
+                    break;
+                case 9:
+                    characterSheet.Strength = (DiceType)Convert.ToInt32(value);
+                    break;
+                case 10:
+                    characterSheet.Vigor = (DiceType)Convert.ToInt32(value);
+                    break;
+                case 11:
+                    characterSheet.Pace = Convert.ToInt32(value);
+                    break;
+                case 12:
+                    characterSheet.Parry = Convert.ToInt32(value);
+                    break;
+                case 13:
+                    characterSheet.Toughness = Convert.ToInt32(value);
+                    break;
+            }
+        }
+
+        private void EditCthulhuCharacterSheet(int option, string value)
+        {
+            CallOfCthulhuCharacterSheet characterSheet = (CallOfCthulhuCharacterSheet)_characterSheetService.characterSheetSelected;
+            switch(option)
+            {
+                case 1:
+                    characterSheet.Name = value;
+                    break;
+                case 2:
+                    characterSheet.Age = Convert.ToInt32(value);
+                    break;
+                case 3:
+                    characterSheet.Sex = value;
+                    break;
+                case 4:
+                    characterSheet.Occupation = value;
+                    break;
+                case 5:
+                    characterSheet.Strength = Convert.ToInt32(value);
+                    break;
+                case 6:
+                    characterSheet.Dexterity = Convert.ToInt32(value);
+                    break;
+                case 7:
+                    characterSheet.Power = Convert.ToInt32(value);
+                    break;
+                case 8:
+                    characterSheet.Constitution = Convert.ToInt32(value);
+                    break;
+                case 9:
+                    characterSheet.Appearance = Convert.ToInt32(value);
+                    break;
+                case 10:
+                    characterSheet.Education = Convert.ToInt32(value);
+                    break;
+                case 11:
+                    characterSheet.Size = Convert.ToInt32(value);
+                    break;
+                case 12:
+                    characterSheet.Intelligence = Convert.ToInt32(value);
+                    break;
+                case 13:
+                    characterSheet.HitPoints = Convert.ToInt32(value);
+                    break;
+                case 14:
+                    characterSheet.Luck = Convert.ToInt32(value);
+                    break;
+                case 15:
+                    characterSheet.Sanity = Convert.ToInt32(value);
+                    break;
+                case 16:
+                    characterSheet.MagicPoints = Convert.ToInt32(value);
+                    break;
+
+            }
+
         }
 
     }

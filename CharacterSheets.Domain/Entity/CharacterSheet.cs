@@ -13,11 +13,18 @@ namespace CharacterSheets.Domain
         public int Age { get; set; }
         public string Sex { get; set; }
 
+        public int attributesCount { get; protected set; }
+
         public abstract string GetCharacterSheetDetails();
     }
 
     public class WarhammerCharacterSheet : CharacterSheet
     {
+        
+        public WarhammerCharacterSheet()
+        {
+            attributesCount = 20;
+        }
         public string CareerPath { get; set; }
         public string Race { get; set; }
         public int WeaponSkill { get; set; }
@@ -44,32 +51,37 @@ namespace CharacterSheets.Domain
             stringBuilder.AppendLine(new string('-', 50));
             stringBuilder.AppendLine("Warhammer character sheet");
             stringBuilder.AppendLine(new string('-', 50));
-            stringBuilder.AppendLine($"Name: {Name}");
-            stringBuilder.AppendLine($"Age: {Age}");
-            stringBuilder.AppendLine($"Sex: {Sex}");
-            stringBuilder.AppendLine($"Race: {Race}");
-            stringBuilder.AppendLine($"Weapon Skill: {WeaponSkill}");
-            stringBuilder.AppendLine($"Ballistic Skill: {BallisticSkill}");
-            stringBuilder.AppendLine($"Strength: {Strength}");
-            stringBuilder.AppendLine($"Toughness: {Toughness}");
-            stringBuilder.AppendLine($"Agility: {Agility}");
-            stringBuilder.AppendLine($"Intelligence: {Intelligence}");
-            stringBuilder.AppendLine($"Will Power: {WillPower}");
-            stringBuilder.AppendLine($"Fellowship: {Fellowship}");
-            stringBuilder.AppendLine($"Attacks: {Attacks}");
-            stringBuilder.AppendLine($"Wounds: {Wounds}");
-            stringBuilder.AppendLine($"Strength Bonus: {StrengthBonus}");
-            stringBuilder.AppendLine($"Toughness Bonus: {ToughnessBonus}");
-            stringBuilder.AppendLine($"Movement: {Movement}");
-            stringBuilder.AppendLine($"Magic: {Magic}");
-            stringBuilder.AppendLine($"Insanity Points: {InsanityPoints}");
-            stringBuilder.AppendLine($"Fate Points: {FatePoints}");
+            stringBuilder.AppendLine($"1. Name: {Name}");
+            stringBuilder.AppendLine($"2. Age: {Age}");
+            stringBuilder.AppendLine($"3. Sex: {Sex}");
+            stringBuilder.AppendLine($"4. Race: {Race}");
+            stringBuilder.AppendLine($"5. Weapon Skill: {WeaponSkill}");
+            stringBuilder.AppendLine($"6. Ballistic Skill: {BallisticSkill}");
+            stringBuilder.AppendLine($"7. Strength: {Strength}");
+            stringBuilder.AppendLine($"8. Toughness: {Toughness}");
+            stringBuilder.AppendLine($"9. Agility: {Agility}");
+            stringBuilder.AppendLine($"10. Intelligence: {Intelligence}");
+            stringBuilder.AppendLine($"11. Will Power: {WillPower}");
+            stringBuilder.AppendLine($"12. Fellowship: {Fellowship}");
+            stringBuilder.AppendLine($"13. Attacks: {Attacks}");
+            stringBuilder.AppendLine($"14. Wounds: {Wounds}");
+            stringBuilder.AppendLine($"15. Strength Bonus: {StrengthBonus}");
+            stringBuilder.AppendLine($"16. Toughness Bonus: {ToughnessBonus}");
+            stringBuilder.AppendLine($"17. Movement: {Movement}");
+            stringBuilder.AppendLine($"18. Magic: {Magic}");
+            stringBuilder.AppendLine($"19. Insanity Points: {InsanityPoints}");
+            stringBuilder.AppendLine($"20. Fate Points: {FatePoints}");
             return stringBuilder.ToString();
         }
     }
 
     public class SavageWorldsCharacterSheet : CharacterSheet
     {
+        public SavageWorldsCharacterSheet()
+        {
+            attributesCount = 13;
+        }
+
         public string Race { get; set; }
         public DiceType Agility { get; set; }
         public DiceType Fighting { get; set; }
@@ -87,25 +99,30 @@ namespace CharacterSheets.Domain
             stringBuilder.AppendLine(new string('-', 50));
             stringBuilder.AppendLine("Savage Worlds character sheet");
             stringBuilder.AppendLine(new string('-', 50));
-            stringBuilder.AppendLine($"Name: {Name}");
-            stringBuilder.AppendLine($"Age: {Age}");
-            stringBuilder.AppendLine($"Sex: {Sex}");
-            stringBuilder.AppendLine($"Race: {Race}");
-            stringBuilder.AppendLine($"Agility: {Agility}");
-            stringBuilder.AppendLine($"Fighting: {Fighting}");
-            stringBuilder.AppendLine($"Smarts: {Smarts}");
-            stringBuilder.AppendLine($"Spirit: {Spirit}");
-            stringBuilder.AppendLine($"Strength: {Strength}");
-            stringBuilder.AppendLine($"Vigor: {Vigor}");
-            stringBuilder.AppendLine($"Pace: {Pace}");
-            stringBuilder.AppendLine($"Parry: {Parry}");
-            stringBuilder.AppendLine($"Toughness: {Toughness}");
+            stringBuilder.AppendLine($"1. Name: {Name}");
+            stringBuilder.AppendLine($"2. Age: {Age}");
+            stringBuilder.AppendLine($"3. Sex: {Sex}");
+            stringBuilder.AppendLine($"4. Race: {Race}");
+            stringBuilder.AppendLine($"5. Agility: {Agility}");
+            stringBuilder.AppendLine($"6. Fighting: {Fighting}");
+            stringBuilder.AppendLine($"7. Smarts: {Smarts}");
+            stringBuilder.AppendLine($"8. Spirit: {Spirit}");
+            stringBuilder.AppendLine($"9. Strength: {Strength}");
+            stringBuilder.AppendLine($"10. Vigor: {Vigor}");
+            stringBuilder.AppendLine($"11. Pace: {Pace}");
+            stringBuilder.AppendLine($"12. Parry: {Parry}");
+            stringBuilder.AppendLine($"13. Toughness: {Toughness}");
             return stringBuilder.ToString();
         }
     }
 
     public class CallOfCthulhuCharacterSheet : CharacterSheet
     {
+        public CallOfCthulhuCharacterSheet()
+        {
+            attributesCount = 16;
+        }
+
         public string Occupation { get; set; }
         public int Strength { get; set; }
         public int Dexterity { get; set; }
@@ -126,22 +143,22 @@ namespace CharacterSheets.Domain
             stringBuilder.AppendLine(new string('-', 50));
             stringBuilder.AppendLine("Call of Cthulhu character sheet");
             stringBuilder.AppendLine(new string('-', 50));
-            stringBuilder.AppendLine($"Name: {Name}");
-            stringBuilder.AppendLine($"Age: {Age}");
-            stringBuilder.AppendLine($"Sex: {Sex}");
-            stringBuilder.AppendLine($"Occupation: {Occupation}");
-            stringBuilder.AppendLine($"Strength: {Strength}");
-            stringBuilder.AppendLine($"Dexterity: {Dexterity}");
-            stringBuilder.AppendLine($"Power: {Power}");
-            stringBuilder.AppendLine($"Constitution: {Constitution}");
-            stringBuilder.AppendLine($"Appearance: {Appearance}");
-            stringBuilder.AppendLine($"Education: {Education}");
-            stringBuilder.AppendLine($"Size: {Size}");
-            stringBuilder.AppendLine($"Intelligence: {Intelligence}");
-            stringBuilder.AppendLine($"Hit Points: {HitPoints}");
-            stringBuilder.AppendLine($"Luck: {Luck}");
-            stringBuilder.AppendLine($"Sanity: {Sanity}");
-            stringBuilder.AppendLine($"Magic Points: {MagicPoints}");
+            stringBuilder.AppendLine($"1. Name: {Name}");
+            stringBuilder.AppendLine($"2. Age: {Age}");
+            stringBuilder.AppendLine($"3. Sex: {Sex}");
+            stringBuilder.AppendLine($"4. Occupation: {Occupation}");
+            stringBuilder.AppendLine($"5. Strength: {Strength}");
+            stringBuilder.AppendLine($"6. Dexterity: {Dexterity}");
+            stringBuilder.AppendLine($"7. Power: {Power}");
+            stringBuilder.AppendLine($"8. Constitution: {Constitution}");
+            stringBuilder.AppendLine($"9. Appearance: {Appearance}");
+            stringBuilder.AppendLine($"10. Education: {Education}");
+            stringBuilder.AppendLine($"11. Size: {Size}");
+            stringBuilder.AppendLine($"12. Intelligence: {Intelligence}");
+            stringBuilder.AppendLine($"13. Hit Points: {HitPoints}");
+            stringBuilder.AppendLine($"14. Luck: {Luck}");
+            stringBuilder.AppendLine($"15. Sanity: {Sanity}");
+            stringBuilder.AppendLine($"16. Magic Points: {MagicPoints}");
             return stringBuilder.ToString();
         }
     }

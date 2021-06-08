@@ -5,6 +5,7 @@ using CharacterSheets.App;
 using CharacterSheets.App.Managers;
 using CharacterSheets.Domain;
 using FluentAssertions;
+using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -175,6 +176,26 @@ namespace CharacterSheets.Test
 
             characterSheetService.characterSheetSelected.Should().NotBeNull();
             characterSheetService.characterSheetSelected.Should().Be(characterSheet);
+        }
+
+        [Fact]
+        public void CanEditItem()
+        {
+            WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet() { Name = "Test" };
+            CharacterSheetService service = new CharacterSheetService();
+            service.characterSheetSelected = characterSheet;
+            service.groupSelected = new Group(1, "TestGroup", GroupType.Warhammer);
+            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), service);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("1");
+            stringBuilder.AppendLine("TestChanged");
+            var stringInput = new StringReader(stringBuilder.ToString());
+            Console.SetIn(stringInput);
+
+            manager.EditCharacterSheet();
+
+            characterSheet.Name.Should().Be("TestChanged");
         }
 
     }
