@@ -36,9 +36,13 @@ namespace CharacterSheets
                     option = Console.ReadKey();
                     Console.WriteLine();
                     Int32.TryParse(option.KeyChar.ToString(), out optionInt);
-                    if (optionInt >= 1 && optionInt <= mainMenu.Count)
+                    if (optionInt >= 1 && optionInt < mainMenu.Count)
                     {
                         break;
+                    }
+                    else if(optionInt == mainMenu.Count)
+                    {
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -49,6 +53,7 @@ namespace CharacterSheets
                 groupService.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
                 option = groupManager.MenuView();
 
+                bool inGroupMenu = true;
                 switch (option.KeyChar)
                 {
                     case '1':
@@ -92,8 +97,12 @@ namespace CharacterSheets
                                         characterSheetManager.EditCharacterSheet();
                                     }
                                     break;
+                                case '5':
+                                    break;
                             }
                         }
+                        break;
+                    case '4':
                         break;
                 }
 

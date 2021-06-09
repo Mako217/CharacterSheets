@@ -33,15 +33,17 @@ namespace CharacterSheets.App
             AddItem(new MenuAction(1, "Warhammer 2nd edition", "Main"));
             AddItem(new MenuAction(2, "Savage Worlds", "Main"));
             AddItem(new MenuAction(3, "Call of Cthulhu 7th edition", "Main"));
+            AddItem(new MenuAction(4, "Exit program", "Main"));
 
             AddItem(new MenuAction(1, "Add group", "Group"));
             AddItem(new MenuAction(2, "Remove group", "Group"));
             AddItem(new MenuAction(3, "Select group", "Group"));
+            AddItem(new MenuAction(4, "Return", "Group"));
 
             AddItem(new MenuAction(1, "Add character sheet", "CharacterSheet"));
             AddItem(new MenuAction(2, "Remove character sheet", "CharacterSheet"));
             AddItem(new MenuAction(3, "Show character sheet details", "CharacterSheet"));
-            AddItem(new MenuAction(4, "Edit character sheet", "CharacterSheet"));
+            AddItem(new MenuAction(4, "Return", "CharacterSheet"));
         }
     }
 }
