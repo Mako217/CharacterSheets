@@ -13,17 +13,16 @@ namespace CharacterSheets.Domain
         public int Age { get; set; }
         public string Sex { get; set; }
 
-        public int attributesCount { get; protected set; }
+        public int AttributesCount { get; protected set; }
 
         public abstract string GetCharacterSheetDetails();
     }
 
     public class WarhammerCharacterSheet : CharacterSheet
     {
-        
         public WarhammerCharacterSheet()
         {
-            attributesCount = 20;
+            AttributesCount = 20;
         }
         public string CareerPath { get; set; }
         public string Race { get; set; }
@@ -79,7 +78,7 @@ namespace CharacterSheets.Domain
     {
         public SavageWorldsCharacterSheet()
         {
-            attributesCount = 13;
+            AttributesCount = 20;
         }
 
         public string Race { get; set; }
@@ -120,7 +119,7 @@ namespace CharacterSheets.Domain
     {
         public CallOfCthulhuCharacterSheet()
         {
-            attributesCount = 16;
+            AttributesCount = 16;
         }
 
         public string Occupation { get; set; }

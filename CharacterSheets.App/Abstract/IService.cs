@@ -13,7 +13,6 @@ namespace CharacterSheets.App.Abstract
         List<T> GetAllItems();
         public int GetNewId();
         int AddItem(T item);
-        int UpdateItem(T item);
         void RemoveItem(T item);
         T GetItemById(int id);
     }

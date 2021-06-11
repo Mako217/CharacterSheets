@@ -38,12 +38,14 @@ namespace CharacterSheets.App
             AddItem(new MenuAction(1, "Add group", "Group"));
             AddItem(new MenuAction(2, "Remove group", "Group"));
             AddItem(new MenuAction(3, "Select group", "Group"));
-            AddItem(new MenuAction(4, "Return", "Group"));
+            AddItem(new MenuAction(4, "Edit group", "Group"));
+            AddItem(new MenuAction(5, "Return", "Group"));
 
             AddItem(new MenuAction(1, "Add character sheet", "CharacterSheet"));
             AddItem(new MenuAction(2, "Remove character sheet", "CharacterSheet"));
             AddItem(new MenuAction(3, "Show character sheet details", "CharacterSheet"));
-            AddItem(new MenuAction(4, "Return", "CharacterSheet"));
+            AddItem(new MenuAction(4, "Edit character sheet details", "CharacterSheet"));
+            AddItem(new MenuAction(5, "Return", "CharacterSheet"));
         }
     }
 }

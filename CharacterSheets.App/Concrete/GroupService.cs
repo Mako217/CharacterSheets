@@ -13,6 +13,12 @@ namespace CharacterSheets.App
     {
         public GroupType typeSelected { get; set; }
 
+        public GroupService()
+        {
+            path = @"CharacterSheets.App\Data\GroupServiceData.json";
+            CreateFileIfNotExists();
+        }
+
         public IEnumerable<Group> GetGroupsByType()
         {
             IEnumerable<Group> validGroups = from grp in Items

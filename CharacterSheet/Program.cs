@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using CharacterSheets.App;
 using CharacterSheets.App.Managers;
 using CharacterSheets.Domain;
@@ -9,6 +10,7 @@ namespace CharacterSheets
     {
         static void Main(string[] args)
         {
+            Directory.SetCurrentDirectory(@"..\..\..\..\");
             MenuActionService actionService = new MenuActionService();
             GroupService groupService = new GroupService();
             CharacterSheetService characterSheetService = new CharacterSheetService();
@@ -103,6 +105,13 @@ namespace CharacterSheets
                         }
                         break;
                     case '4':
+                        Group groupToEdit = groupManager.SelectItem();
+                        if(groupToEdit!=null)
+                        {
+                            groupManager.EditGroup();
+                        }
+                        break;
+                    case '5':
                         break;
                 }
 

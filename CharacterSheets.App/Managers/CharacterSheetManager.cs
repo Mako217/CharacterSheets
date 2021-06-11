@@ -289,7 +289,7 @@ namespace CharacterSheets.App.Managers
             while(true)
             {
                 option = Convert.ToInt32(Console.ReadLine());
-                if(option >= 1 && option <= _characterSheetService.characterSheetSelected.attributesCount)
+                if(option >= 1 && option <= _characterSheetService.characterSheetSelected.AttributesCount)
                 {
                     break;
                 }
@@ -316,6 +316,7 @@ namespace CharacterSheets.App.Managers
                     EditCthulhuCharacterSheet(option, value);
                     break;
             }
+            _characterSheetService.SaveDataToFile();
         }
 
         private void EditWarhammerCharacterSheet(int option, string value)

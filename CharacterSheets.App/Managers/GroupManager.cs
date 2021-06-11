@@ -89,5 +89,15 @@ namespace CharacterSheets.App.Managers
             _groupService.RemoveItem(_characterSheetService.groupSelected);
         }
 
+        public void EditGroup()
+        {
+            Console.WriteLine(new string('-', 50));
+            Console.WriteLine("Enter new name for a group:");
+            Console.WriteLine(new string('-', 50));
+            string name = Console.ReadLine();
+            _characterSheetService.groupSelected.Name = name;
+            _groupService.SaveDataToFile();
+        }
+
     }
 }
