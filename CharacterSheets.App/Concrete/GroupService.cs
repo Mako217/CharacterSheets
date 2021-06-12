@@ -11,7 +11,9 @@ namespace CharacterSheets.App
 {
     public class GroupService : BaseService<Group>
     {
-        public GroupType typeSelected { get; set; }
+
+        public static Group groupSelected { get; set; }
+        public static GroupType typeSelected { get; set; }
 
         public GroupService(string path)
         {

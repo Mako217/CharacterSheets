@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CharacterSheets.App.Abstract;
 using CharacterSheets.App.Common;
 using CharacterSheets.Domain;
 
@@ -10,12 +11,12 @@ namespace CharacterSheets.App.Managers
 {
     public class CharacterSheetManager : BaseManager<CharacterSheet>
     {
-        public CharacterSheetManager(MenuActionService actionService, CharacterSheetService characterSheetService) : base(actionService)
+        public CharacterSheetManager(MenuActionService actionService, IService<CharacterSheet> characterSheetService) : base(actionService)
         {
             _characterSheetService = characterSheetService;
         }
 
-        private readonly CharacterSheetService _characterSheetService;
+        private readonly IService<CharacterSheet> _characterSheetService;
 
         public override CharacterSheet SelectItem()
         {
@@ -54,13 +55,13 @@ namespace CharacterSheets.App.Managers
                 result = null;
             }
 
-            _characterSheetService.characterSheetSelected = result;
+            CharacterSheetService.characterSheetSelected = result;
             return result;
         }
 
         public override void RemoveItem()
         {
-            _characterSheetService.RemoveItem(_characterSheetService.characterSheetSelected);
+            _characterSheetService.RemoveItem(CharacterSheetService.characterSheetSelected);
         }
 
         public override int AddNewItem()
@@ -73,7 +74,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine("Enter age:");
             Int32.TryParse(Console.ReadLine(), out int age);
             int id = _characterSheetService.GetNewId();
-            Group group = _characterSheetService.groupSelected;
+            Group group = GroupService.groupSelected;
 
             switch (group.Type)
             {
@@ -275,7 +276,7 @@ namespace CharacterSheets.App.Managers
 
         public void ShowCharacterSheetDetails()
         {
-            Console.Write(_characterSheetService.characterSheetSelected.GetCharacterSheetDetails());
+            Console.Write(CharacterSheetService.characterSheetSelected.GetCharacterSheetDetails());
         }
 
         public void EditCharacterSheet()
@@ -289,7 +290,7 @@ namespace CharacterSheets.App.Managers
             while(true)
             {
                 option = Convert.ToInt32(Console.ReadLine());
-                if(option >= 1 && option <= _characterSheetService.characterSheetSelected.AttributesCount)
+                if(option >= 1 && option <= CharacterSheetService.characterSheetSelected.AttributesCount)
                 {
                     break;
                 }
@@ -304,7 +305,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine(new string('-', 50));
             string value = Console.ReadLine();
 
-            switch (_characterSheetService.groupSelected.Type)
+            switch (GroupService.groupSelected.Type)
             {
                 case GroupType.Warhammer:
                     EditWarhammerCharacterSheet(option, value);
@@ -321,7 +322,7 @@ namespace CharacterSheets.App.Managers
 
         private void EditWarhammerCharacterSheet(int option, string value)
         {
-            WarhammerCharacterSheet characterSheet = (WarhammerCharacterSheet)_characterSheetService.characterSheetSelected;
+            WarhammerCharacterSheet characterSheet = (WarhammerCharacterSheet)CharacterSheetService.characterSheetSelected;
             switch (option)
             {
                 case 1:
@@ -396,7 +397,7 @@ namespace CharacterSheets.App.Managers
 
         private void EditSavageWorldsCharacterSheet(int option, string value)
         {
-            SavageWorldsCharacterSheet characterSheet = (SavageWorldsCharacterSheet)_characterSheetService.characterSheetSelected;
+            SavageWorldsCharacterSheet characterSheet = (SavageWorldsCharacterSheet)CharacterSheetService.characterSheetSelected;
             if (option >= 5 && option <= 10)
             {
                 while(Convert.ToInt32(value) != 4 && Convert.ToInt32(value) != 6 && Convert.ToInt32(value) != 8 && Convert.ToInt32(value) != 10 && Convert.ToInt32(value) != 12)
@@ -455,7 +456,7 @@ namespace CharacterSheets.App.Managers
 
         private void EditCthulhuCharacterSheet(int option, string value)
         {
-            CallOfCthulhuCharacterSheet characterSheet = (CallOfCthulhuCharacterSheet)_characterSheetService.characterSheetSelected;
+            CallOfCthulhuCharacterSheet characterSheet = (CallOfCthulhuCharacterSheet)CharacterSheetService.characterSheetSelected;
             switch(option)
             {
                 case 1:

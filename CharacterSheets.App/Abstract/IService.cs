@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CharacterSheets.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,9 @@ namespace CharacterSheets.App.Abstract
         int AddItem(T item);
         void RemoveItem(T item);
         T GetItemById(int id);
+        public void SaveDataToFile();
+        public void CreateFileIfNotExists();
+        void ReadDataFromFile();
+
     }
 }

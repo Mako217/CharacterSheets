@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using CharacterSheets.App;
+using CharacterSheets.App.Abstract;
 using CharacterSheets.App.Managers;
 using CharacterSheets.Domain;
 
@@ -14,9 +15,9 @@ namespace CharacterSheets
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             Directory.SetCurrentDirectory(@"..\..\..\..");
             MenuActionService actionService = new MenuActionService();
-            GroupService groupService = new GroupService(@"CharacterSheets.App\Data\GroupServiceData.json");
+            IService<Group> groupService = new GroupService(@"CharacterSheets.App\Data\GroupServiceData.json");
             groupService.CreateFileIfNotExists();
-            CharacterSheetService characterSheetService = new CharacterSheetService(@"CharacterSheets.App\Data\CharacterSheetServiceData.json");
+            IService<CharacterSheet> characterSheetService = new CharacterSheetService(@"CharacterSheets.App\Data\CharacterSheetServiceData.json");
             characterSheetService.CreateFileIfNotExists();
             GroupManager groupManager = new GroupManager(actionService, groupService, characterSheetService);
             CharacterSheetManager characterSheetManager =
@@ -55,7 +56,7 @@ namespace CharacterSheets
                     }
                 }
 
-                groupService.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
+                GroupService.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
                 option = groupManager.MenuView();
 
                 switch (option.KeyChar)
@@ -72,7 +73,7 @@ namespace CharacterSheets
                         break;
                     case '3':
                         groupManager.SelectItem();
-                        if (characterSheetService.groupSelected != null)
+                        if (GroupService.groupSelected != null)
                         {
                             option = characterSheetManager.MenuView();
                             switch (option.KeyChar)

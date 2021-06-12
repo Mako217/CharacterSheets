@@ -26,7 +26,7 @@ namespace CharacterSheets.Test
             CharacterSheetService characterSheetService = new CharacterSheetService(null);
             CharacterSheet characterSheet = new WarhammerCharacterSheet() {Id = 1, Name = "Test"};
             characterSheetService.AddItem(characterSheet);
-            characterSheetService.characterSheetSelected = characterSheet;
+            CharacterSheetService.characterSheetSelected = characterSheet;
 
             CharacterSheetManager characterSheetManager =
                 new CharacterSheetManager(new MenuActionService(), characterSheetService);
@@ -41,7 +41,7 @@ namespace CharacterSheets.Test
         {
             CharacterSheetService service = new CharacterSheetService(null);
             Group group = new Group(1, "Test", GroupType.Warhammer);
-            service.groupSelected = group;
+            GroupService.groupSelected = group;
 
             CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), service);
 
@@ -86,7 +86,7 @@ namespace CharacterSheets.Test
         {
             CharacterSheetService service = new CharacterSheetService(null);
             Group group = new Group(1, "Test", GroupType.SavageWorlds);
-            service.groupSelected = group;
+            GroupService.groupSelected = group;
 
             CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), service);
 
@@ -121,7 +121,7 @@ namespace CharacterSheets.Test
         {
             CharacterSheetService service = new CharacterSheetService(null);
             Group group = new Group(1, "Test", GroupType.CallOfCthulhu);
-            service.groupSelected = group;
+            GroupService.groupSelected = group;
 
             CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), service);
 
@@ -165,7 +165,7 @@ namespace CharacterSheets.Test
             WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet() {Name = "Test", Id = 1, GroupId = 1};
             CharacterSheetService characterSheetService = new CharacterSheetService(null);
             characterSheetService.AddItem(characterSheet);
-            characterSheetService.groupSelected = group;
+            GroupService.groupSelected = group;
 
 
             var input = new StringReader(characterSheet.Id.ToString());
@@ -174,8 +174,8 @@ namespace CharacterSheets.Test
 
             manager.SelectItem();
 
-            characterSheetService.characterSheetSelected.Should().NotBeNull();
-            characterSheetService.characterSheetSelected.Should().Be(characterSheet);
+            CharacterSheetService.characterSheetSelected.Should().NotBeNull();
+            CharacterSheetService.characterSheetSelected.Should().Be(characterSheet);
         }
 
         [Fact]
@@ -183,8 +183,8 @@ namespace CharacterSheets.Test
         {
             WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet() { Name = "Test" };
             CharacterSheetService service = new CharacterSheetService(null);
-            service.characterSheetSelected = characterSheet;
-            service.groupSelected = new Group(1, "TestGroup", GroupType.Warhammer);
+            CharacterSheetService.characterSheetSelected = characterSheet;
+            GroupService.groupSelected = new Group(1, "TestGroup", GroupType.Warhammer);
             CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), service);
 
             StringBuilder stringBuilder = new StringBuilder();

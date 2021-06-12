@@ -12,8 +12,8 @@ namespace CharacterSheets.App
 {
     public class CharacterSheetService : BaseService<CharacterSheet>
     {
-        public Group groupSelected { get; set; }
-        public CharacterSheet characterSheetSelected { get; set; }
+
+        public static CharacterSheet characterSheetSelected { get; set; }
 
         public CharacterSheetService(string path)
         {
@@ -24,7 +24,7 @@ namespace CharacterSheets.App
         public override IEnumerable<CharacterSheet> GetValidItems()
         {
             IEnumerable<CharacterSheet> validCharacterSheets = from chs in Items
-                where chs.GroupId == groupSelected.Id
+                where chs.GroupId == GroupService.groupSelected.Id
                 select chs;
 
             return validCharacterSheets;

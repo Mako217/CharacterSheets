@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CharacterSheets.App.Abstract;
+using CharacterSheets.Domain;
 using CharacterSheets.Domain.Common;
 using Newtonsoft.Json;
 
@@ -76,14 +77,7 @@ namespace CharacterSheets.App.Common
             
         }
 
-        protected void ReadDataFromFile()
-        {
-            JsonSerializerSettings settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            };
-            Items = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(Path), settings);
-        }
+
 
         public void CreateFileIfNotExists()
         {
@@ -101,5 +95,19 @@ namespace CharacterSheets.App.Common
         {
             throw new NotImplementedException();
         }
+
+        public void ReadDataFromFile()
+        {
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            };
+            List<T> list = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(Path), settings);
+            if(list != null)
+            {
+                Items = list;
+            }
+        }
+
     }
 }

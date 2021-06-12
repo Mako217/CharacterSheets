@@ -14,14 +14,14 @@ namespace CharacterSheets.App.Managers
 
 
 
-        public GroupManager(MenuActionService actionService, GroupService groupService, CharacterSheetService characterSheetService) : base(actionService)
+        public GroupManager(MenuActionService actionService, IService<Group> groupService, IService<CharacterSheet> characterSheetService) : base(actionService)
         {
             _groupService = groupService;
             _characterSheetService = characterSheetService;
         }
 
-        private readonly GroupService _groupService;
-        private readonly CharacterSheetService _characterSheetService;
+        private readonly IService<Group> _groupService;
+        private readonly IService<CharacterSheet> _characterSheetService;
 
         public override Group SelectItem()
         {
@@ -60,7 +60,8 @@ namespace CharacterSheets.App.Managers
                 result = null;
             }
 
-            _characterSheetService.groupSelected = result;
+           GroupService.groupSelected = result;
+            Console.WriteLine(GroupService.groupSelected);
             return result;
         }
 
@@ -71,7 +72,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine(new string('-', 50));
             var name = Console.ReadLine();
             int id = _groupService.GetNewId();
-            Group group = new Group(id, name, _groupService.typeSelected);
+            Group group = new Group(id, name, GroupService.typeSelected);
             _groupService.AddItem(group);
 
             return id;
@@ -86,7 +87,7 @@ namespace CharacterSheets.App.Managers
             {
                 _characterSheetService.RemoveItem(characterSheetsToRemove.First());
             }
-            _groupService.RemoveItem(_characterSheetService.groupSelected);
+            _groupService.RemoveItem(GroupService.groupSelected);
         }
 
         public void EditGroup()
@@ -95,7 +96,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine("Enter new name for a group:");
             Console.WriteLine(new string('-', 50));
             string name = Console.ReadLine();
-            _characterSheetService.groupSelected.Name = name;
+            GroupService.groupSelected.Name = name;
             _groupService.SaveDataToFile();
         }
 

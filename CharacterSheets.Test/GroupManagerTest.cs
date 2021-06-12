@@ -6,6 +6,9 @@ using CharacterSheets.App.Managers;
 using CharacterSheets.Domain;
 using FluentAssertions;
 using Xunit;
+using Moq;
+using System.Collections.Generic;
+using CharacterSheets.App.Abstract;
 
 namespace CharacterSheets.Test
 {
@@ -15,21 +18,33 @@ namespace CharacterSheets.Test
         public void CanDeleteGroup()
         {
             Group group = new Group(1, "TestGroup", GroupType.Warhammer);
+            List<Group> groupList = new List<Group>();
+            groupList.Add(group);
+
             WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet()
                 {Id = 1, Name = "TestSheet", GroupId = 1};
-            CharacterSheetService characterSheetService = new CharacterSheetService(null);
-            GroupService groupService = new GroupService(null);
+            List<CharacterSheet> characterSheetList = new List<CharacterSheet>();
+            characterSheetList.Add(characterSheet);
 
-            characterSheetService.AddItem(characterSheet);
-            groupService.AddItem(group);
-            characterSheetService.groupSelected = group;
+            var mockGroup = new Mock<IService<Group>>();
+            GroupService.groupSelected = group;
+            mockGroup.Setup(s => s.Items).Returns(groupList);
+            mockGroup.Setup(s => s.RemoveItem(It.IsAny<Group>())).Callback<Group>((e) => mockGroup.Object.Items.Remove(e));
 
-            var manager = new GroupManager(new MenuActionService(), groupService, characterSheetService);
+            var mockCharacterSheet = new Mock<IService<CharacterSheet>>();
+            mockCharacterSheet.Setup(s => s.Items).Returns(characterSheetList);
+            mockCharacterSheet.Setup(s => s.GetValidItems()).Returns(characterSheetList);
+            mockCharacterSheet.Setup(s => s.RemoveItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => mockCharacterSheet.Object.Items.Remove(e));
+
+            var manager = new GroupManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
+
+            mockGroup.Object.Items.Should().NotBeEmpty();
+            mockCharacterSheet.Object.Items.Should().NotBeEmpty();
 
             manager.RemoveItem();
 
-            characterSheetService.GetValidItems().Should().BeEmpty();
-            groupService.GetItemById(group.Id).Should().BeNull();
+            mockGroup.Object.Items.Should().BeEmpty();
+            mockCharacterSheet.Object.Items.Should().BeEmpty();
         }
 
         [Fact]
@@ -55,7 +70,7 @@ namespace CharacterSheets.Test
             Group group = new Group(1, "TestGroup", GroupType.Warhammer);
             GroupService groupService = new GroupService(null);
             groupService.AddItem(group);
-            groupService.typeSelected = GroupType.Warhammer;
+            GroupService.typeSelected = GroupType.Warhammer;
 
             CharacterSheetService characterSheetService = new CharacterSheetService(null);
 
@@ -66,8 +81,27 @@ namespace CharacterSheets.Test
 
             manager.SelectItem();
 
-            characterSheetService.groupSelected.Should().NotBeNull();
-            characterSheetService.groupSelected.Should().Be(group);
+            GroupService.groupSelected.Should().NotBeNull();
+            GroupService.groupSelected.Should().Be(group);
+        }
+
+        [Fact]
+        public void TestingMoq()
+        {
+            Group group = new Group(1, "TestGroup", GroupType.Warhammer);
+            List<Group> groupList = new List<Group>();
+            groupList.Add(group);
+
+            var mock = new Mock<IService<Group>>();
+            mock.Setup(s => s.Items).Returns(groupList);
+
+            mock.Setup(s => s.RemoveItem(It.IsAny<Group>())).Callback<Group>((e) => mock.Object.Items.Remove(e));
+
+            mock.Object.Items.Should().NotBeEmpty();
+
+            mock.Object.RemoveItem(group);
+
+            mock.Object.Items.Should().BeEmpty();
         }
     }
 }
