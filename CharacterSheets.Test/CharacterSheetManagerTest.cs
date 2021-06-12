@@ -23,7 +23,7 @@ namespace CharacterSheets.Test
         [Fact]
         public void CanRemoveItem()
         {
-            CharacterSheetService characterSheetService = new CharacterSheetService();
+            CharacterSheetService characterSheetService = new CharacterSheetService(null);
             CharacterSheet characterSheet = new WarhammerCharacterSheet() {Id = 1, Name = "Test"};
             characterSheetService.AddItem(characterSheet);
             characterSheetService.characterSheetSelected = characterSheet;
@@ -39,7 +39,7 @@ namespace CharacterSheets.Test
         [Fact]
         public void CanAddWarhammerItem()
         {
-            CharacterSheetService service = new CharacterSheetService();
+            CharacterSheetService service = new CharacterSheetService(null);
             Group group = new Group(1, "Test", GroupType.Warhammer);
             service.groupSelected = group;
 
@@ -84,7 +84,7 @@ namespace CharacterSheets.Test
         [Fact]
         public void CanAddSavageWorldsItem()
         {
-            CharacterSheetService service = new CharacterSheetService();
+            CharacterSheetService service = new CharacterSheetService(null);
             Group group = new Group(1, "Test", GroupType.SavageWorlds);
             service.groupSelected = group;
 
@@ -119,7 +119,7 @@ namespace CharacterSheets.Test
         [Fact]
         public void CanAddCthulhuItem()
         {
-            CharacterSheetService service = new CharacterSheetService();
+            CharacterSheetService service = new CharacterSheetService(null);
             Group group = new Group(1, "Test", GroupType.CallOfCthulhu);
             service.groupSelected = group;
 
@@ -163,7 +163,7 @@ namespace CharacterSheets.Test
         {
             Group group = new Group(1, "TestGroup", GroupType.Warhammer);
             WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet() {Name = "Test", Id = 1, GroupId = 1};
-            CharacterSheetService characterSheetService = new CharacterSheetService();
+            CharacterSheetService characterSheetService = new CharacterSheetService(null);
             characterSheetService.AddItem(characterSheet);
             characterSheetService.groupSelected = group;
 
@@ -182,7 +182,7 @@ namespace CharacterSheets.Test
         public void CanEditItem()
         {
             WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet() { Name = "Test" };
-            CharacterSheetService service = new CharacterSheetService();
+            CharacterSheetService service = new CharacterSheetService(null);
             service.characterSheetSelected = characterSheet;
             service.groupSelected = new Group(1, "TestGroup", GroupType.Warhammer);
             CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), service);

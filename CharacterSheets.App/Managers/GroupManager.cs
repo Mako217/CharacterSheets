@@ -25,7 +25,7 @@ namespace CharacterSheets.App.Managers
 
         public override Group SelectItem()
         {
-            IEnumerable<Group> validGroups = _groupService.GetGroupsByType();
+            IEnumerable<Group> validGroups = _groupService.GetValidItems();
             Group result;
 
             if (validGroups.Any())
@@ -81,7 +81,7 @@ namespace CharacterSheets.App.Managers
 
         public override void RemoveItem()
         {
-            IEnumerable<CharacterSheet> characterSheetsToRemove = _characterSheetService.GetCharacterSheetByGroup();
+            IEnumerable<CharacterSheet> characterSheetsToRemove = _characterSheetService.GetValidItems();
             while (characterSheetsToRemove.Any())
             {
                 _characterSheetService.RemoveItem(characterSheetsToRemove.First());

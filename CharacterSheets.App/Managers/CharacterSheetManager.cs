@@ -19,7 +19,7 @@ namespace CharacterSheets.App.Managers
 
         public override CharacterSheet SelectItem()
         {
-            IEnumerable<CharacterSheet> validCharacterSheets = _characterSheetService.GetCharacterSheetByGroup();
+            IEnumerable<CharacterSheet> validCharacterSheets = _characterSheetService.GetValidItems();
             CharacterSheet result;
 
             if (validCharacterSheets.Any())

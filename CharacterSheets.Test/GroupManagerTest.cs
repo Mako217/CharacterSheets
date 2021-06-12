@@ -17,8 +17,8 @@ namespace CharacterSheets.Test
             Group group = new Group(1, "TestGroup", GroupType.Warhammer);
             WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet()
                 {Id = 1, Name = "TestSheet", GroupId = 1};
-            CharacterSheetService characterSheetService = new CharacterSheetService();
-            GroupService groupService = new GroupService();
+            CharacterSheetService characterSheetService = new CharacterSheetService(null);
+            GroupService groupService = new GroupService(null);
 
             characterSheetService.AddItem(characterSheet);
             groupService.AddItem(group);
@@ -28,7 +28,7 @@ namespace CharacterSheets.Test
 
             manager.RemoveItem();
 
-            characterSheetService.GetCharacterSheetByGroup().Should().BeEmpty();
+            characterSheetService.GetValidItems().Should().BeEmpty();
             groupService.GetItemById(group.Id).Should().BeNull();
         }
 
@@ -37,9 +37,9 @@ namespace CharacterSheets.Test
         {
             var input = new StringReader("Test");
             Console.SetIn(input);
-            GroupService groupService = new GroupService();
+            GroupService groupService = new GroupService(null);
 
-            GroupManager manager = new GroupManager(new MenuActionService(), groupService, new CharacterSheetService());
+            GroupManager manager = new GroupManager(new MenuActionService(), groupService, new CharacterSheetService(null));
 
             int resultId = manager.AddNewItem();
 
@@ -53,11 +53,11 @@ namespace CharacterSheets.Test
         public void CanSelectItem()
         {
             Group group = new Group(1, "TestGroup", GroupType.Warhammer);
-            GroupService groupService = new GroupService();
+            GroupService groupService = new GroupService(null);
             groupService.AddItem(group);
             groupService.typeSelected = GroupType.Warhammer;
 
-            CharacterSheetService characterSheetService = new CharacterSheetService();
+            CharacterSheetService characterSheetService = new CharacterSheetService(null);
 
 
             var input = new StringReader(group.Id.ToString());

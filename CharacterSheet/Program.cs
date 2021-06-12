@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CharacterSheets.App;
 using CharacterSheets.App.Managers;
@@ -10,10 +11,13 @@ namespace CharacterSheets
     {
         static void Main(string[] args)
         {
-            Directory.SetCurrentDirectory(@"..\..\..\..\");
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            Directory.SetCurrentDirectory(@"..\..\..\..");
             MenuActionService actionService = new MenuActionService();
-            GroupService groupService = new GroupService();
-            CharacterSheetService characterSheetService = new CharacterSheetService();
+            GroupService groupService = new GroupService(@"CharacterSheets.App\Data\GroupServiceData.json");
+            groupService.CreateFileIfNotExists();
+            CharacterSheetService characterSheetService = new CharacterSheetService(@"CharacterSheets.App\Data\CharacterSheetServiceData.json");
+            characterSheetService.CreateFileIfNotExists();
             GroupManager groupManager = new GroupManager(actionService, groupService, characterSheetService);
             CharacterSheetManager characterSheetManager =
                 new CharacterSheetManager(actionService, characterSheetService);
@@ -22,9 +26,8 @@ namespace CharacterSheets
             {
                 Console.WriteLine(new string('-', 50));
                 Console.WriteLine("Please select your RPG system:");
-
-                
-                var mainMenu = actionService.GetMenuActionsByMenuName("Main");
+                actionService.menuName = "Main";
+                List<MenuAction> mainMenu = (List<MenuAction>)actionService.GetValidItems();
                 foreach (var action in mainMenu)
                 {
                     Console.WriteLine($"{action.Id}. {action.Name}");
@@ -55,7 +58,6 @@ namespace CharacterSheets
                 groupService.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
                 option = groupManager.MenuView();
 
-                bool inGroupMenu = true;
                 switch (option.KeyChar)
                 {
                     case '1':

@@ -10,12 +10,13 @@ namespace CharacterSheets.App
 {
     public class MenuActionService : BaseService<MenuAction>
     {
+        public string menuName { get; set; }
         public MenuActionService()
         {
             Initialize();
         }
 
-        public List<MenuAction> GetMenuActionsByMenuName(string menuName)
+        public override IEnumerable<MenuAction> GetValidItems()
         {
             List<MenuAction> result = new List<MenuAction>();
             foreach (var menuAction in Items)

@@ -15,14 +15,13 @@ namespace CharacterSheets.App
         public Group groupSelected { get; set; }
         public CharacterSheet characterSheetSelected { get; set; }
 
-        public CharacterSheetService()
+        public CharacterSheetService(string path)
         {
-            path = @"CharacterSheets.App\Data\CharacterSheetServiceData.json";
-            CreateFileIfNotExists();
+            Path = path;
         }
 
 
-        public IEnumerable<CharacterSheet> GetCharacterSheetByGroup()
+        public override IEnumerable<CharacterSheet> GetValidItems()
         {
             IEnumerable<CharacterSheet> validCharacterSheets = from chs in Items
                 where chs.GroupId == groupSelected.Id

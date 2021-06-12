@@ -21,8 +21,8 @@ namespace CharacterSheets.App.Common
 
         public ConsoleKeyInfo MenuView()
         {
-            string menuName = typeof(T).Name;
-            var menu = _actionService.GetMenuActionsByMenuName(menuName);
+            _actionService.menuName = typeof(T).Name;
+            List<MenuAction> menu = (List<MenuAction>)_actionService.GetValidItems();
             Console.WriteLine(new string('-', 50));
             Console.WriteLine("Please, choose what you want to do:");
             foreach (var action in menu)

@@ -10,6 +10,8 @@ namespace CharacterSheets.App.Abstract
     public interface IManager<T>
     {
         ConsoleKeyInfo MenuView();
+
+
         T SelectItem();
         int AddNewItem();
         void RemoveItem();

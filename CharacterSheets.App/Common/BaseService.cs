@@ -14,7 +14,7 @@ namespace CharacterSheets.App.Common
     public class BaseService<T> : IService<T> where T : BaseEntity
     {
         public List<T> Items { get; set; }
-        protected string path;
+        protected string Path;
 
         public BaseService()
         {
@@ -44,10 +44,8 @@ namespace CharacterSheets.App.Common
         public int AddItem(T item)
         {
             Items.Add(item);
-            if(path!=null)
-            {
-                SaveDataToFile();
-            }
+            SaveDataToFile();
+
             return item.Id;
         }
 
@@ -65,13 +63,17 @@ namespace CharacterSheets.App.Common
 
         public void SaveDataToFile()
         {
-            JsonSerializerSettings settings = new JsonSerializerSettings
+            if(Path != null)
             {
-                TypeNameHandling = TypeNameHandling.All
-            };
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                };
 
-            var resultJson = JsonConvert.SerializeObject(Items, settings);
-            File.WriteAllText(path, resultJson.ToString());
+                var resultJson = JsonConvert.SerializeObject(Items, settings);
+                File.WriteAllText(Path, resultJson.ToString());
+            }
+            
         }
 
         protected void ReadDataFromFile()
@@ -80,19 +82,24 @@ namespace CharacterSheets.App.Common
             {
                 TypeNameHandling = TypeNameHandling.All
             };
-            Items = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(path), settings);
+            Items = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(Path), settings);
         }
 
-        protected void CreateFileIfNotExists()
+        public void CreateFileIfNotExists()
         {
-            if (File.Exists(path))
+            if (File.Exists(Path))
             {
                 ReadDataFromFile();
             }
             else
             {
-                File.Create(path);
+                File.Create(Path);
             }
+        }
+
+        public virtual IEnumerable<T> GetValidItems()
+        {
+            throw new NotImplementedException();
         }
     }
 }
