@@ -287,10 +287,10 @@ namespace CharacterSheets.App.Managers
             ShowCharacterSheetDetails();
             Console.WriteLine(new string('-', 50));
             int option;
-            while(true)
+            while (true)
             {
                 option = Convert.ToInt32(Console.ReadLine());
-                if(option >= 1 && option <= CharacterSheetService.characterSheetSelected.AttributesCount)
+                if (option >= 1 && option <= CharacterSheetService.characterSheetSelected.AttributesCount)
                 {
                     break;
                 }
@@ -400,7 +400,7 @@ namespace CharacterSheets.App.Managers
             SavageWorldsCharacterSheet characterSheet = (SavageWorldsCharacterSheet)CharacterSheetService.characterSheetSelected;
             if (option >= 5 && option <= 10)
             {
-                while(Convert.ToInt32(value) != 4 && Convert.ToInt32(value) != 6 && Convert.ToInt32(value) != 8 && Convert.ToInt32(value) != 10 && Convert.ToInt32(value) != 12)
+                while (Convert.ToInt32(value) != 4 && Convert.ToInt32(value) != 6 && Convert.ToInt32(value) != 8 && Convert.ToInt32(value) != 10 && Convert.ToInt32(value) != 12)
                 {
                     Console.WriteLine("Wrong value. It must equal 4, 6, 8, 10 or 12.");
                     Console.WriteLine(new string('-', 50));
@@ -410,7 +410,7 @@ namespace CharacterSheets.App.Managers
                 }
             }
 
-            switch(option)
+            switch (option)
             {
                 case 1:
                     characterSheet.Name = value;
@@ -457,7 +457,7 @@ namespace CharacterSheets.App.Managers
         private void EditCthulhuCharacterSheet(int option, string value)
         {
             CallOfCthulhuCharacterSheet characterSheet = (CallOfCthulhuCharacterSheet)CharacterSheetService.characterSheetSelected;
-            switch(option)
+            switch (option)
             {
                 case 1:
                     characterSheet.Name = value;

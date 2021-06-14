@@ -15,17 +15,19 @@ namespace CharacterSheets.App
 
         public static CharacterSheet characterSheetSelected { get; set; }
 
-        public CharacterSheetService(string path)
+        public CharacterSheetService()
         {
-            Path = path;
+            fileName = @"CharacterSheetServiceData.json";
+            path = directory + fileName;
+            CreateFileIfNotExists();
         }
 
 
         public override IEnumerable<CharacterSheet> GetValidItems()
         {
             IEnumerable<CharacterSheet> validCharacterSheets = from chs in Items
-                where chs.GroupId == GroupService.groupSelected.Id
-                select chs;
+                                                               where chs.GroupId == GroupService.groupSelected.Id
+                                                               select chs;
 
             return validCharacterSheets;
         }

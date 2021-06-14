@@ -15,11 +15,14 @@ namespace CharacterSheets.App.Common
     public class BaseService<T> : IService<T> where T : BaseEntity
     {
         public List<T> Items { get; set; }
-        protected string Path;
+        protected string path;
+        protected string directory;
+        protected string fileName;
 
         public BaseService()
         {
             Items = new List<T>();
+            directory = @"CharacterSheets.App\Data\";
         }
 
         public int GetNewId()
@@ -64,7 +67,7 @@ namespace CharacterSheets.App.Common
 
         public void SaveDataToFile()
         {
-            if(Path != null)
+            if (path != null)
             {
                 JsonSerializerSettings settings = new JsonSerializerSettings
                 {
@@ -72,22 +75,28 @@ namespace CharacterSheets.App.Common
                 };
 
                 var resultJson = JsonConvert.SerializeObject(Items, settings);
-                File.WriteAllText(Path, resultJson.ToString());
+                File.WriteAllText(path, resultJson.ToString());
             }
-            
+
         }
 
 
 
         public void CreateFileIfNotExists()
         {
-            if (File.Exists(Path))
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            if (File.Exists(path))
             {
                 ReadDataFromFile();
             }
             else
             {
-                File.Create(Path);
+                File.Create(path);
             }
         }
 
@@ -102,8 +111,8 @@ namespace CharacterSheets.App.Common
             {
                 TypeNameHandling = TypeNameHandling.All
             };
-            List<T> list = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(Path), settings);
-            if(list != null)
+            List<T> list = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(path), settings);
+            if (list != null)
             {
                 Items = list;
             }

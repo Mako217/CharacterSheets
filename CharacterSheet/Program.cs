@@ -15,10 +15,8 @@ namespace CharacterSheets
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             Directory.SetCurrentDirectory(@"..\..\..\..");
             MenuActionService actionService = new MenuActionService();
-            IService<Group> groupService = new GroupService(@"CharacterSheets.App\Data\GroupServiceData.json");
-            groupService.CreateFileIfNotExists();
-            IService<CharacterSheet> characterSheetService = new CharacterSheetService(@"CharacterSheets.App\Data\CharacterSheetServiceData.json");
-            characterSheetService.CreateFileIfNotExists();
+            IService<Group> groupService = new GroupService();
+            IService<CharacterSheet> characterSheetService = new CharacterSheetService();
             GroupManager groupManager = new GroupManager(actionService, groupService, characterSheetService);
             CharacterSheetManager characterSheetManager =
                 new CharacterSheetManager(actionService, characterSheetService);
@@ -46,7 +44,7 @@ namespace CharacterSheets
                     {
                         break;
                     }
-                    else if(optionInt == mainMenu.Count)
+                    else if (optionInt == mainMenu.Count)
                     {
                         Environment.Exit(0);
                     }
@@ -66,7 +64,7 @@ namespace CharacterSheets
                         break;
                     case '2':
                         Group groupToRemove = groupManager.SelectItem();
-                        if (groupToRemove != null) 
+                        if (groupToRemove != null)
                         {
                             groupManager.RemoveItem();
                         }
@@ -109,7 +107,7 @@ namespace CharacterSheets
                         break;
                     case '4':
                         Group groupToEdit = groupManager.SelectItem();
-                        if(groupToEdit!=null)
+                        if (groupToEdit != null)
                         {
                             groupManager.EditGroup();
                         }
@@ -122,6 +120,6 @@ namespace CharacterSheets
 
         }
 
-        
+
     }
 }

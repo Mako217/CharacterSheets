@@ -60,8 +60,7 @@ namespace CharacterSheets.App.Managers
                 result = null;
             }
 
-           GroupService.groupSelected = result;
-            Console.WriteLine(GroupService.groupSelected);
+            GroupService.groupSelected = result;
             return result;
         }
 
