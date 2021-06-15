@@ -26,12 +26,12 @@ namespace CharacterSheets.Test
             List<CharacterSheet> characterSheetList = new List<CharacterSheet>();
             characterSheetList.Add(characterSheet);
 
-            var mockGroup = new Mock<IService<Group>>();
-            GroupService.groupSelected = group;
+            var mockGroup = new Mock<IGroupService>();
+            mockGroup.Setup(s => s.groupSelected).Returns(group);
             mockGroup.Setup(s => s.RemoveItem(It.IsAny<Group>())).Callback<Group>((e) => groupList.Remove(e));
 
-            var mockCharacterSheet = new Mock<IService<CharacterSheet>>();
-            mockCharacterSheet.Setup(s => s.GetValidItems()).Returns(characterSheetList);
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
+            mockCharacterSheet.Setup(s => s.GetCharacterSheetsByGroup(group)).Returns(characterSheetList);
             mockCharacterSheet.Setup(s => s.RemoveItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Remove(e));
 
             var manager = new GroupManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
@@ -53,11 +53,11 @@ namespace CharacterSheets.Test
 
             List<Group> groupList = new List<Group>();
 
-            var mockGroup = new Mock<IService<Group>>();
+            var mockGroup = new Mock<IGroupService>();
             mockGroup.Setup(s => s.AddItem(It.IsAny<Group>())).Callback<Group>((e) => groupList.Add(e));
             mockGroup.Setup(s => s.GetNewId()).Returns(1);
 
-            var mockCharacterSheet = new Mock<IService<CharacterSheet>>();
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
 
             GroupManager manager = new GroupManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
@@ -76,20 +76,20 @@ namespace CharacterSheets.Test
             List<Group> groupList = new List<Group>();
             groupList.Add(group);
 
-            var mockGroup = new Mock<IService<Group>>();
-            mockGroup.Setup(s => s.GetValidItems()).Returns(groupList);
+            var mockGroup = new Mock<IGroupService>();
+            mockGroup.Setup(s => s.GetGroupsByTypeSelected()).Returns(groupList);
             mockGroup.Setup(s => s.GetItemById(1)).Returns(group);
 
-            var mockCharacterSheet = new Mock<IService<CharacterSheet>>();
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
 
             var input = new StringReader(group.Id.ToString());
             Console.SetIn(input);
             GroupManager manager = new GroupManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
-            manager.SelectItem();
+            Group groupSelected = manager.SelectItem();
 
-            GroupService.groupSelected.Should().NotBeNull();
-            GroupService.groupSelected.Should().Be(group);
+            groupSelected.Should().NotBeNull();
+            groupSelected.Should().Be(group);
         }
     }
 }

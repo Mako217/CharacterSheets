@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using CharacterSheets.App.Abstract;
 using CharacterSheets.App.Common;
 using CharacterSheets.Domain;
 
 namespace CharacterSheets.App
 {
-    public class GroupService : BaseService<Group>
+    public class GroupService : BaseService<Group>, IGroupService
     {
 
-        public static Group groupSelected { get; set; }
-        public static GroupType typeSelected { get; set; }
+        public Group groupSelected { get; set; }
+        public GroupType typeSelected { get; set; }
 
         public GroupService()
         {
@@ -23,7 +24,7 @@ namespace CharacterSheets.App
 
         }
 
-        public override IEnumerable<Group> GetValidItems()
+        public IEnumerable<Group> GetGroupsByTypeSelected()
         {
             IEnumerable<Group> validGroups = from grp in Items
                                              where grp.Type == typeSelected

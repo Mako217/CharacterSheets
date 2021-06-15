@@ -100,10 +100,6 @@ namespace CharacterSheets.App.Common
             }
         }
 
-        public virtual IEnumerable<T> GetValidItems()
-        {
-            throw new NotImplementedException();
-        }
 
         public void ReadDataFromFile()
         {

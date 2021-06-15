@@ -30,12 +30,14 @@ namespace CharacterSheets.Test
             List<CharacterSheet> characterSheetList = new List<CharacterSheet>();
             characterSheetList.Add(characterSheet);
 
-            var mock = new Mock<IService<CharacterSheet>>();
-            mock.Setup(s => s.RemoveItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Remove(e));
-            CharacterSheetService.characterSheetSelected = characterSheet;
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
+            mockCharacterSheet.Setup(s => s.RemoveItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Remove(e));
+            mockCharacterSheet.Setup(s => s.characterSheetSelected).Returns(characterSheet);
+
+            var mockGroup = new Mock<IGroupService>();
 
             CharacterSheetManager characterSheetManager =
-                new CharacterSheetManager(new MenuActionService(), mock.Object);
+                new CharacterSheetManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
             characterSheetManager.RemoveItem();
 
@@ -46,15 +48,17 @@ namespace CharacterSheets.Test
         public void CanAddWarhammerItem()
         {
             Group group = new Group(1, "Test", GroupType.Warhammer);
-            GroupService.groupSelected = group;
 
             List<CharacterSheet> characterSheetList = new List<CharacterSheet>();
 
-            var mock = new Mock<IService<CharacterSheet>>();
-            mock.Setup(s => s.AddItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Add(e));
-            mock.Setup(s => s.GetNewId()).Returns(1);
+            var mockGroup = new Mock<IGroupService>();
+            mockGroup.Setup(s => s.groupSelected).Returns(group);
 
-            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mock.Object);
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
+            mockCharacterSheet.Setup(s => s.AddItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Add(e));
+            mockCharacterSheet.Setup(s => s.GetNewId()).Returns(1);
+
+            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -95,15 +99,17 @@ namespace CharacterSheets.Test
         public void CanAddSavageWorldsItem()
         {
             Group group = new Group(1, "Test", GroupType.SavageWorlds);
-            GroupService.groupSelected = group;
+
+            var mockGroup = new Mock<IGroupService>();
+            mockGroup.Setup(s => s.groupSelected).Returns(group);
 
             List<CharacterSheet> characterSheetList = new List<CharacterSheet>();
 
-            var mock = new Mock<IService<CharacterSheet>>();
-            mock.Setup(s => s.AddItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Add(e));
-            mock.Setup(s => s.GetNewId()).Returns(1);
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
+            mockCharacterSheet.Setup(s => s.AddItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Add(e));
+            mockCharacterSheet.Setup(s => s.GetNewId()).Returns(1);
 
-            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mock.Object);
+            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -135,15 +141,16 @@ namespace CharacterSheets.Test
         public void CanAddCthulhuItem()
         {
             Group group = new Group(1, "Test", GroupType.CallOfCthulhu);
-            GroupService.groupSelected = group;
+            var mockGroup = new Mock<IGroupService>();
+            mockGroup.Setup(s => s.groupSelected).Returns(group);
 
             List<CharacterSheet> characterSheetList = new List<CharacterSheet>();
 
-            var mock = new Mock<IService<CharacterSheet>>();
-            mock.Setup(s => s.AddItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Add(e));
-            mock.Setup(s => s.GetNewId()).Returns(1);
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
+            mockCharacterSheet.Setup(s => s.AddItem(It.IsAny<CharacterSheet>())).Callback<CharacterSheet>((e) => characterSheetList.Add(e));
+            mockCharacterSheet.Setup(s => s.GetNewId()).Returns(1);
 
-            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mock.Object);
+            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -186,30 +193,37 @@ namespace CharacterSheets.Test
             List<CharacterSheet> characterSheetList = new List<CharacterSheet>();
             characterSheetList.Add(characterSheet);
 
-            var mock = new Mock<IService<CharacterSheet>>();
-            mock.Setup(s => s.GetValidItems()).Returns(characterSheetList);
-            mock.Setup(s => s.GetItemById(1)).Returns(characterSheet);
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
+            mockCharacterSheet.Setup(s => s.GetCharacterSheetsByGroup(group)).Returns(characterSheetList);
+            mockCharacterSheet.Setup(s => s.GetItemById(1)).Returns(characterSheet);
+
+            var mockGroup = new Mock<IGroupService>();
+            mockGroup.Setup(s => s.groupSelected).Returns(group);
 
             var input = new StringReader(characterSheet.Id.ToString());
             Console.SetIn(input);
-            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mock.Object);
+            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
-            manager.SelectItem();
+            WarhammerCharacterSheet characterSheetSelected = (WarhammerCharacterSheet)manager.SelectItem();
 
-            CharacterSheetService.characterSheetSelected.Should().NotBeNull();
-            CharacterSheetService.characterSheetSelected.Should().Be(characterSheet);
+            characterSheetSelected.Should().NotBeNull();
+            characterSheetSelected.Should().Be(characterSheet);
         }
 
         [Fact]
         public void CanEditItem()
         {
             WarhammerCharacterSheet characterSheet = new WarhammerCharacterSheet() { Name = "Test" };
-            CharacterSheetService.characterSheetSelected = characterSheet;
-            GroupService.groupSelected = new Group(1, "TestGroup", GroupType.Warhammer);
+            
+            Group group = new Group(1, "TestGroup", GroupType.Warhammer);
 
-            var mock = new Mock<IService<CharacterSheet>>();
+            var mockCharacterSheet = new Mock<ICharacterSheetService>();
+            mockCharacterSheet.Setup(s => s.characterSheetSelected).Returns(characterSheet);
 
-            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mock.Object);
+            var mockGroup = new Mock<IGroupService>();
+            mockGroup.Setup(s => s.groupSelected).Returns(group);
+
+            CharacterSheetManager manager = new CharacterSheetManager(new MenuActionService(), mockGroup.Object, mockCharacterSheet.Object);
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("1");

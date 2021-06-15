@@ -14,18 +14,14 @@ namespace CharacterSheets.App.Managers
 
 
 
-        public GroupManager(MenuActionService actionService, IService<Group> groupService, IService<CharacterSheet> characterSheetService) : base(actionService)
+        public GroupManager(IMenuActionService actionService, IGroupService groupService, ICharacterSheetService characterSheetService) : base(actionService, groupService, characterSheetService)
         {
-            _groupService = groupService;
-            _characterSheetService = characterSheetService;
         }
 
-        private readonly IService<Group> _groupService;
-        private readonly IService<CharacterSheet> _characterSheetService;
 
         public override Group SelectItem()
         {
-            IEnumerable<Group> validGroups = _groupService.GetValidItems();
+            IEnumerable<Group> validGroups = _groupService.GetGroupsByTypeSelected();
             Group result;
 
             if (validGroups.Any())
@@ -60,7 +56,7 @@ namespace CharacterSheets.App.Managers
                 result = null;
             }
 
-            GroupService.groupSelected = result;
+            _groupService.groupSelected = result;
             return result;
         }
 
@@ -71,7 +67,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine(new string('-', 50));
             var name = Console.ReadLine();
             int id = _groupService.GetNewId();
-            Group group = new Group(id, name, GroupService.typeSelected);
+            Group group = new Group(id, name, _groupService.typeSelected);
             _groupService.AddItem(group);
 
             return id;
@@ -81,12 +77,12 @@ namespace CharacterSheets.App.Managers
 
         public override void RemoveItem()
         {
-            IEnumerable<CharacterSheet> characterSheetsToRemove = _characterSheetService.GetValidItems();
+            IEnumerable<CharacterSheet> characterSheetsToRemove = _characterSheetService.GetCharacterSheetsByGroup(_groupService.groupSelected);
             while (characterSheetsToRemove.Any())
             {
                 _characterSheetService.RemoveItem(characterSheetsToRemove.First());
             }
-            _groupService.RemoveItem(GroupService.groupSelected);
+            _groupService.RemoveItem(_groupService.groupSelected);
         }
 
         public void EditGroup()
@@ -95,7 +91,7 @@ namespace CharacterSheets.App.Managers
             Console.WriteLine("Enter new name for a group:");
             Console.WriteLine(new string('-', 50));
             string name = Console.ReadLine();
-            GroupService.groupSelected.Name = name;
+            _groupService.groupSelected.Name = name;
             _groupService.SaveDataToFile();
         }
 

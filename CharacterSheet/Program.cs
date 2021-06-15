@@ -14,19 +14,18 @@ namespace CharacterSheets
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             Directory.SetCurrentDirectory(@"..\..\..\..");
-            MenuActionService actionService = new MenuActionService();
-            IService<Group> groupService = new GroupService();
-            IService<CharacterSheet> characterSheetService = new CharacterSheetService();
+            IMenuActionService actionService = new MenuActionService();
+            IGroupService groupService = new GroupService();
+            ICharacterSheetService characterSheetService = new CharacterSheetService();
             GroupManager groupManager = new GroupManager(actionService, groupService, characterSheetService);
             CharacterSheetManager characterSheetManager =
-                new CharacterSheetManager(actionService, characterSheetService);
+                new CharacterSheetManager(actionService,groupService, characterSheetService);
             Console.WriteLine("Welcome to your character sheet manager!");
             while (true)
             {
                 Console.WriteLine(new string('-', 50));
                 Console.WriteLine("Please select your RPG system:");
-                actionService.menuName = "Main";
-                List<MenuAction> mainMenu = (List<MenuAction>)actionService.GetValidItems();
+                List<MenuAction> mainMenu = (List<MenuAction>)actionService.GerActionsByMenuName("Main");
                 foreach (var action in mainMenu)
                 {
                     Console.WriteLine($"{action.Id}. {action.Name}");
@@ -54,7 +53,7 @@ namespace CharacterSheets
                     }
                 }
 
-                GroupService.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
+                groupService.typeSelected = (GroupType)Convert.ToInt32(option.KeyChar.ToString());
                 option = groupManager.MenuView();
 
                 switch (option.KeyChar)
@@ -71,7 +70,7 @@ namespace CharacterSheets
                         break;
                     case '3':
                         groupManager.SelectItem();
-                        if (GroupService.groupSelected != null)
+                        if (groupService.groupSelected != null)
                         {
                             option = characterSheetManager.MenuView();
                             switch (option.KeyChar)

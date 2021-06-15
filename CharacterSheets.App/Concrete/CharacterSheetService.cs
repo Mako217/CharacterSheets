@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CharacterSheets.App.Abstract;
 using CharacterSheets.App.Common;
 using CharacterSheets.Domain;
 
 namespace CharacterSheets.App
 {
-    public class CharacterSheetService : BaseService<CharacterSheet>
+    public class CharacterSheetService : BaseService<CharacterSheet>, ICharacterSheetService
     {
 
-        public static CharacterSheet characterSheetSelected { get; set; }
+        public CharacterSheet characterSheetSelected { get; set; }
 
         public CharacterSheetService()
         {
@@ -23,10 +24,10 @@ namespace CharacterSheets.App
         }
 
 
-        public override IEnumerable<CharacterSheet> GetValidItems()
+        public IEnumerable<CharacterSheet> GetCharacterSheetsByGroup(Group groupSelected)
         {
             IEnumerable<CharacterSheet> validCharacterSheets = from chs in Items
-                                                               where chs.GroupId == GroupService.groupSelected.Id
+                                                               where chs.GroupId == groupSelected.Id
                                                                select chs;
 
             return validCharacterSheets;

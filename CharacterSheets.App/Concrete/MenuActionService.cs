@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CharacterSheets.App.Abstract;
 using CharacterSheets.App.Common;
 using CharacterSheets.Domain;
 
 namespace CharacterSheets.App
 {
-    public class MenuActionService : BaseService<MenuAction>
+    public class MenuActionService : BaseService<MenuAction>, IMenuActionService
     {
-        public string menuName { get; set; }
         public MenuActionService()
         {
             Initialize();
         }
 
-        public override IEnumerable<MenuAction> GetValidItems()
+        public IEnumerable<MenuAction> GerActionsByMenuName(string menuName)
         {
             List<MenuAction> result = new List<MenuAction>();
             foreach (var menuAction in Items)

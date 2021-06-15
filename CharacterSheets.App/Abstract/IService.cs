@@ -12,7 +12,7 @@ namespace CharacterSheets.App.Abstract
         List<T> Items { get; set; }
 
         List<T> GetAllItems();
-        IEnumerable<T> GetValidItems();
+
         public int GetNewId();
         int AddItem(T item);
         void RemoveItem(T item);

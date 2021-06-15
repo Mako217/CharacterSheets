@@ -12,17 +12,20 @@ namespace CharacterSheets.App.Common
     public class BaseManager<T> : IManager<T> where T : BaseEntity
     {
 
-        public BaseManager(MenuActionService actionService)
+        public BaseManager(IMenuActionService actionService, IGroupService groupService, ICharacterSheetService characterSheetService)
         {
             _actionService = actionService;
+            _groupService = groupService;
+            _characterSheetService = characterSheetService;
         }
 
-        private readonly MenuActionService _actionService;
+        private readonly IMenuActionService _actionService;
+        protected readonly ICharacterSheetService _characterSheetService;
+        protected readonly IGroupService _groupService;
 
         public ConsoleKeyInfo MenuView()
         {
-            _actionService.menuName = typeof(T).Name;
-            List<MenuAction> menu = (List<MenuAction>)_actionService.GetValidItems();
+            List<MenuAction> menu = (List<MenuAction>)_actionService.GerActionsByMenuName(typeof(T).Name);
             Console.WriteLine(new string('-', 50));
             Console.WriteLine("Please, choose what you want to do:");
             foreach (var action in menu)
